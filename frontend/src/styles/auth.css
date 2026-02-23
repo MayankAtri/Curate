@@ -476,6 +476,191 @@
   cursor: wait;
 }
 
+/* Preferences page styles currently used by PreferencesPage.jsx */
+.preferences-shell {
+  max-width: 1100px;
+}
+
+.preferences-hero {
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--separator-stark);
+  padding-bottom: 1rem;
+}
+
+.preferences-kicker {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 0.4rem;
+}
+
+.preferences-hero h1 {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  margin-bottom: 0.35rem;
+}
+
+.preferences-hero p {
+  color: var(--text-secondary);
+}
+
+.preferences-card {
+  border: 1px solid var(--separator-stark);
+  background: var(--bg-primary);
+}
+
+.profile-header-card {
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.profile-avatar-lg {
+  width: 60px;
+  height: 60px;
+  border: 1px solid var(--separator-stark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 800;
+  background: #fff;
+  color: #000;
+}
+
+.profile-info h2 {
+  font-size: 1.4rem;
+  margin-bottom: 0.2rem;
+}
+
+.profile-info p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.logout-btn {
+  margin-left: auto;
+  border: 1px solid var(--separator-stark);
+  background: transparent;
+  color: var(--text-primary);
+  padding: 0.6rem 0.9rem;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: #fff;
+  color: #000;
+}
+
+.profile-section {
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  border-bottom: 1px solid var(--separator-stark);
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.9rem;
+}
+
+.section-header h3 {
+  font-size: 1.1rem;
+}
+
+.text-btn {
+  border: 1px solid var(--separator-stark);
+  background: transparent;
+  color: var(--text-primary);
+  padding: 0.45rem 0.7rem;
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.text-btn:hover:not(:disabled) {
+  background: #fff;
+  color: #000;
+}
+
+.prefs-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--separator-stark);
+  border-left: 1px solid var(--separator-stark);
+}
+
+.prefs-stat-card {
+  border-right: 1px solid var(--separator-stark);
+  border-bottom: 1px solid var(--separator-stark);
+  padding: 0.9rem;
+}
+
+.prefs-stat-value {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.prefs-stat-label {
+  margin-top: 0.3rem;
+  color: var(--text-secondary);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.read-only-topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.topic-pill.static {
+  border: 1px solid var(--separator-stark);
+  background: transparent;
+  color: var(--text-primary);
+  padding: 0.45rem 0.6rem;
+  font-size: 0.78rem;
+}
+
+.preferences-muted {
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+}
+
+.preferences-status {
+  margin-top: 0.75rem;
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.placeholder-text {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
 @media (max-width: 768px) {
   .onboarding-content {
     padding: 2rem 1rem 7rem;
@@ -508,5 +693,17 @@
 
   .continue-btn {
     width: 100%;
+  }
+
+  .profile-header-card {
+    flex-wrap: wrap;
+  }
+
+  .logout-btn {
+    margin-left: 0;
+  }
+
+  .prefs-stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

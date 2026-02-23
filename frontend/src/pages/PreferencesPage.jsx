@@ -12,6 +12,8 @@ function PreferencesPage() {
   const [selectedTopics, setSelectedTopics] = useState([]);
   const [user] = useState(() => authService.getUser());
   const [isEditing, setIsEditing] = useState(false);
+  const [savingTopics, setSavingTopics] = useState(false);
+  const [statusMessage, setStatusMessage] = useState('');
 
   useEffect(() => {
     if (!authService.isAuthenticated()) {
@@ -49,8 +51,19 @@ function PreferencesPage() {
   };
 
   const handleSaveTopics = async () => {
-    await preferencesService.updateTopics(selectedTopics);
-    setIsEditing(false);
+    setSavingTopics(true);
+    setStatusMessage('');
+    try {
+      await preferencesService.updateTopics(selectedTopics);
+      setIsEditing(false);
+      setStatusMessage('Preferences saved.');
+    } catch (error) {
+      setStatusMessage(
+        error?.response?.data?.message || 'Could not save preferences. Please try again.'
+      );
+    } finally {
+      setSavingTopics(false);
+    }
   };
 
   if (!user) return null;
@@ -59,9 +72,15 @@ function PreferencesPage() {
   const preferences = insights?.preferences || {};
 
   return (
-    <main className="main profile-container">
+    <main className="main profile-container preferences-shell">
+      <header className="preferences-hero">
+        <p className="preferences-kicker">Account & Personalization</p>
+        <h1>Preferences</h1>
+        <p>Manage your profile, reading stats, and topic interests.</p>
+      </header>
+
       {/* Profile Header */}
-      <div className="profile-header-card">
+      <div className="profile-header-card preferences-card">
         <div className="profile-avatar-lg">
           {user.username?.charAt(0).toUpperCase() ||
             user.email?.charAt(0).toUpperCase()}
@@ -76,14 +95,14 @@ function PreferencesPage() {
       </div>
 
       {/* Quick Stats */}
-      <section className="profile-section prefs-stats-section">
+      <section className="profile-section prefs-stats-section preferences-card">
         <div className="section-header">
           <h3>Your Stats</h3>
           <Link to="/analytics" className="text-btn">
             View All
           </Link>
         </div>
-        {!analyticsLoading && (
+        {!analyticsLoading ? (
           <div className="prefs-stats-grid">
             <div className="prefs-stat-card">
               <div className="prefs-stat-value">{summary.totalViews || 0}</div>
@@ -112,18 +131,21 @@ function PreferencesPage() {
               <div className="prefs-stat-label">Preferences</div>
             </div>
           </div>
+        ) : (
+          <p className="preferences-muted">Loading stats...</p>
         )}
       </section>
 
       {/* Interests Section */}
-      <section className="profile-section">
+      <section className="profile-section preferences-card">
         <div className="section-header">
           <h3>Your Interests</h3>
           <button
             className="text-btn"
             onClick={() => (isEditing ? handleSaveTopics() : setIsEditing(true))}
+            disabled={savingTopics}
           >
-            {isEditing ? 'Done' : 'Edit'}
+            {isEditing ? (savingTopics ? 'Saving...' : 'Save') : 'Edit'}
           </button>
         </div>
 
@@ -149,6 +171,8 @@ function PreferencesPage() {
             )}
           </div>
         )}
+
+        {statusMessage && <p className="preferences-status">{statusMessage}</p>}
       </section>
     </main>
   );
