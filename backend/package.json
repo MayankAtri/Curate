@@ -1,0 +1,44 @@
+{
+  "name": "curate-backend",
+  "version": "1.0.0",
+  "description": "AI-Powered Personalized News Aggregator - Backend",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "worker": "node worker.js",
+    "worker:dev": "nodemon worker.js",
+    "seed": "node src/scripts/seedContentSources.js && node src/scripts/seedTestData.js",
+    "cleanup": "node src/scripts/cleanupInvalidUrls.js",
+    "migrate:user-preference-index": "node src/scripts/migrateUserPreferenceIndex.js",
+    "fix:google-news-urls": "node src/scripts/fixGoogleNewsArticleUrls.js"
+  },
+  "keywords": [
+    "news",
+    "aggregator",
+    "ai",
+    "personalization",
+    "feed"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "axios": "^1.6.0",
+    "bcrypt": "^5.1.1",
+    "bullmq": "^5.0.0",
+    "cheerio": "^1.0.0-rc.12",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-validator": "^7.0.1",
+    "ioredis": "^5.3.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.0.0",
+    "rss-parser": "^3.13.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

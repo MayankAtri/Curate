@@ -1,0 +1,188 @@
+/* High-End Editorial Minimalistic Theme - Curate */
+
+:root {
+  /* Colors - Stark Onyx & Pure White */
+  --bg-primary: #050505;
+  --bg-secondary: #0a0a0a;
+  --bg-tertiary: #111111;
+  --bg-card: #050505;
+  --bg-card-hover: #ffffff;
+  /* Invert on hover */
+  --bg-elevated: #000000;
+
+  /* Text Colors - Maximum Contrast */
+  --text-primary: #fafafa;
+  --text-secondary: #888888;
+  --text-tertiary: #555555;
+  --text-inverted: #050505;
+  /* Black text on white hover */
+
+  /* Accent Colors - Used very sparingly */
+  --accent-primary: #f0f0f0;
+  /* Soft white for accents */
+  --accent-primary-rgb: 240, 240, 240;
+
+  /* The single pop of color if needed (e.g. error states or badges) - Raw Red */
+  --accent-raw: #f2132d;
+  --accent-raw-rgb: 242, 19, 45;
+
+  /* Borders and Separators - Hard, sharp lines */
+  --separator: rgba(255, 255, 255, 0.1);
+  --separator-strong: rgba(255, 255, 255, 0.2);
+  --separator-stark: #ffffff;
+  --grid-line: rgba(255, 255, 255, 0.08);
+
+  /* Shadows - REMOVED for brutalist aesthetic. Replaced with offset borders if needed. */
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
+  --shadow-glow: none;
+
+  /* Expressive Transitions - Snappy, mechanical */
+  --ease-elastic: cubic-bezier(0, 0, 0.2, 1);
+  --ease-smooth: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 0.1s;
+  --duration-normal: 0.2s;
+  --duration-slow: 0.4s;
+
+  /* Typography - Massive, Structural */
+  --font-display: 'Outfit', -apple-system, sans-serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+
+  /* Spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-8: 3rem;
+  --space-12: 4rem;
+
+  /* Border Radius - ZERO or extremely sharp */
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-full: 9999px;
+  /* Reserved ONLY for pills/badges */
+
+  /* Layout */
+  --card-padding: 2rem;
+  --grid-gap: 1.5rem;
+  --header-height: 80px;
+}
+
+::selection {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+}
+
+/* ------------------- GLOBAL GRID BACKGROUND ------------------- */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background-size: 100px 100px;
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  mask-image: linear-gradient(to bottom, black 30%, transparent 95%);
+  -webkit-mask-image: linear-gradient(to bottom, black 30%, transparent 95%);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Headings inherit Display font */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+  :root {
+    --header-height: 64px;
+  }
+}
+
+/* Custom Minimal Scrollbar - Blocky */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+  border-left: 1px solid var(--grid-line);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--separator-strong);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #fff;
+}
+
+/* App Container */
+#root,
+.app {
+  min-height: 100vh;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Utility Animations - Mechanical and sharp */
+.hover-lift {
+  transition: transform var(--duration-fast) var(--ease-elastic),
+    background var(--duration-fast),
+    color var(--duration-fast);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  background: #fff;
+  color: #000;
+}
+
+.hover-glow {
+  /* No glows allowed in editorial. Replaced with sharp border interaction. */
+  transition: border-color var(--duration-fast);
+}
+
+.hover-glow:hover {
+  border-color: #fff;
+}
