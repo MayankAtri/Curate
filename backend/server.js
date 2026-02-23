@@ -5,7 +5,7 @@ import { createRedisClient } from './src/config/redis.js';
 import { startLearningJob, stopLearningJob } from './src/jobs/learning.job.js';
 import { logger } from './src/utils/logger.js';
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 async function startServer() {
   try {

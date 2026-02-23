@@ -41,6 +41,7 @@ function OnboardingPage() {
     const [selected, setSelected] = useState([]);
     const [activeGroup, setActiveGroup] = useState('tech');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitError, setSubmitError] = useState('');
 
     const toggleTopic = (id) => {
         if (selected.includes(id)) {
@@ -51,10 +52,20 @@ function OnboardingPage() {
     };
 
     const handleFinish = async () => {
+        setSubmitError('');
         setIsSubmitting(true);
         try {
             await preferencesService.updateTopics(selected);
             navigate('/feed');
+        } catch (error) {
+            const status = error?.response?.status;
+            if (status === 401) {
+                navigate('/login');
+                return;
+            }
+            setSubmitError(
+                error?.response?.data?.message || 'Could not save your topics. Please try again.'
+            );
         } finally {
             setIsSubmitting(false);
         }
@@ -144,6 +155,12 @@ function OnboardingPage() {
                         </>
                     )}
                 </motion.section>
+
+                {submitError && (
+                    <motion.div className="auth-error" variants={itemVariants}>
+                        {submitError}
+                    </motion.div>
+                )}
 
                 <motion.footer className="onboarding-footer" variants={itemVariants}>
                     <AnimatePresence>

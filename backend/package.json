@@ -9,7 +9,7 @@
     "dev": "nodemon server.js",
     "worker": "node worker.js",
     "worker:dev": "nodemon worker.js",
-    "seed": "node src/scripts/seedContentSources.js && node src/scripts/seedTestData.js",
+    "seed": "node src/scripts/seedTestData.js",
     "cleanup": "node src/scripts/cleanupInvalidUrls.js",
     "migrate:user-preference-index": "node src/scripts/migrateUserPreferenceIndex.js",
     "fix:google-news-urls": "node src/scripts/fixGoogleNewsArticleUrls.js"
