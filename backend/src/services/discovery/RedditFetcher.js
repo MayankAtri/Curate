@@ -153,13 +153,6 @@ class RedditFetcher {
   inferTopics(post, source) {
     const topics = new Map();
 
-    // Add source topics
-    if (source.topics) {
-      for (const topic of source.topics) {
-        topics.set(topic.toLowerCase(), { name: topic.toLowerCase(), confidence: 0.7 });
-      }
-    }
-
     // Add source category
     if (source.category) {
       topics.set(source.category.toLowerCase(), {

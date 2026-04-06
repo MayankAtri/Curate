@@ -13,6 +13,10 @@ const feedCache = new FeedCache();
  */
 export async function getFeed(req, res, next) {
   try {
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
+
     const userId = req.userId;
     const {
       limit = PAGINATION.DEFAULT_LIMIT,
@@ -20,6 +24,7 @@ export async function getFeed(req, res, next) {
       topic = null,
       strictTopic = 'false',
       liveSearch = 'false',
+      requireSummary = 'false',
     } = req.query;
 
     const parsedLimit = Math.min(
@@ -30,6 +35,7 @@ export async function getFeed(req, res, next) {
     const parsedTopic = topic ? topic.toLowerCase().trim() : null;
     const parsedStrictTopic = strictTopic === 'true' || strictTopic === '1';
     const parsedLiveSearch = liveSearch === 'true' || liveSearch === '1';
+    const parsedRequireSummary = requireSummary === 'true' || requireSummary === '1';
 
     logger.info(`Getting feed for user ${userId}`, {
       limit: parsedLimit,
@@ -37,6 +43,7 @@ export async function getFeed(req, res, next) {
       topic: parsedTopic,
       strictTopic: parsedStrictTopic,
       liveSearch: parsedLiveSearch,
+      requireSummary: parsedRequireSummary,
     });
 
     // Get feed (will generate if needed)
@@ -46,6 +53,7 @@ export async function getFeed(req, res, next) {
       topic: parsedTopic,
       strictTopic: parsedStrictTopic,
       liveSearch: parsedLiveSearch,
+      requireSummary: parsedRequireSummary,
     });
 
     // Format response
@@ -62,6 +70,7 @@ export async function getFeed(req, res, next) {
               source: item.article.source,
               publishedAt: item.article.publishedAt,
               summary: item.article.summary,
+              summaryStatus: item.article.summaryStatus,
               topics: item.article.topics,
               readingTimeMinutes: item.article.content?.readingTimeMinutes,
             }
@@ -90,6 +99,10 @@ export async function getFeed(req, res, next) {
  */
 export async function refreshFeed(req, res, next) {
   try {
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
+
     const userId = req.userId;
     const { limit = PAGINATION.DEFAULT_LIMIT } = req.query;
 
@@ -120,6 +133,7 @@ export async function refreshFeed(req, res, next) {
               source: item.article.source,
               publishedAt: item.article.publishedAt,
               summary: item.article.summary,
+              summaryStatus: item.article.summaryStatus,
               topics: item.article.topics,
               readingTimeMinutes: item.article.content?.readingTimeMinutes,
             }
@@ -199,6 +213,7 @@ export async function getTrendingFeed(req, res, next) {
           source: item.article.source,
           publishedAt: item.article.publishedAt,
           summary: item.article.summary,
+          summaryStatus: item.article.summaryStatus,
           topics: item.article.topics,
         },
         relevance: item.relevance,

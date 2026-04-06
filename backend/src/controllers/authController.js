@@ -2,6 +2,14 @@ import User from '../models/User.js';
 import authService from '../services/auth/AuthService.js';
 import { logger } from '../utils/logger.js';
 
+function buildUsernameFromEmail(email = '') {
+  const localPart = email.split('@')[0] || 'curate';
+  return localPart
+    .toLowerCase()
+    .replace(/[^a-z0-9._-]/g, '')
+    .slice(0, 50) || 'curate';
+}
+
 /**
  * POST /api/auth/register
  * Register a new user
@@ -11,10 +19,10 @@ export async function register(req, res, next) {
     const { email, username, password } = req.body;
 
     // Validate required fields
-    if (!email || !username || !password) {
+    if (!email || !password) {
       return res.status(400).json({
         error: 'Validation error',
-        message: 'Email, username, and password are required',
+        message: 'Email and password are required',
       });
     }
 
@@ -37,11 +45,12 @@ export async function register(req, res, next) {
 
     // Hash password
     const passwordHash = await authService.hashPassword(password);
+    const resolvedUsername = (username || '').trim() || buildUsernameFromEmail(email);
 
     // Create user
     const user = await User.create({
       email: email.toLowerCase(),
-      username,
+      username: resolvedUsername,
       passwordHash,
     });
 

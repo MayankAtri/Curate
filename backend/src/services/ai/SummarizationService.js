@@ -2,7 +2,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import Article from '../../models/Article.js';
 import ArticleExtractor from '../content/ArticleExtractor.js';
 import { SUMMARY_STATUS, RATE_LIMITS } from '../../config/constants.js';
-import { truncateToWords, sleep } from '../../utils/helpers.js';
+import { truncateToWords, sleep, countWords } from '../../utils/helpers.js';
 import { logger } from '../../utils/logger.js';
 
 /**
@@ -11,7 +11,7 @@ import { logger } from '../../utils/logger.js';
 class SummarizationService {
   constructor(options = {}) {
     const apiKey = options.apiKey || process.env.GEMINI_API_KEY;
-    const modelName = options.model || process.env.GEMINI_MODEL || 'gemini-2.0-flash';
+    const modelName = options.model || process.env.GEMINI_MODEL || 'gemini-2.5-flash-lite';
 
     if (!apiKey) {
       throw new Error('GEMINI_API_KEY is required');
@@ -35,38 +35,58 @@ class SummarizationService {
    * @param {string} title - Article title
    * @returns {string} - Prompt
    */
-  buildPrompt(articleText, title) {
-    return `You are a professional news summarization assistant. Your task is to create a comprehensive yet readable summary of the following news article.
+  buildPrompt({ articleText, title, description, sourceName }) {
+    return `You are writing high-quality summaries for a news product.
 
-ARTICLE TITLE: ${title}
+Summarize the article below for a reader who wants the core facts quickly.
+Return ONLY valid JSON with this exact shape:
+{
+  "summary": "string",
+  "keyPoints": ["string", "string", "string"]
+}
 
+Rules:
+- The summary must be 3-4 sentences and roughly 70-100 words.
+- Start with the main development immediately. Do not use meta phrases like "This article discusses".
+- Focus on concrete facts: who, what changed, why it matters, important numbers, and what happens next.
+- Be precise and restrained. Do not speculate beyond the provided text.
+- If the source text is thin or incomplete, still write the best factual summary possible using only what is present.
+- Each key point must be a complete sentence with useful detail, not a fragment.
+- Exactly 3 key points.
+
+ARTICLE TITLE: ${title || 'Unknown title'}
+SOURCE: ${sourceName || 'Unknown source'}
+ARTICLE DESCRIPTION: ${description || 'N/A'}
 ARTICLE CONTENT:
-${articleText}
+${articleText}`;
+  }
 
-Please provide:
-1. A detailed paragraph summary (4-6 sentences, approximately 80-120 words) that:
-   - Opens with the main news/event
-   - Explains the context and significance
-   - Includes key details, numbers, or quotes if relevant
-   - Concludes with implications or what happens next
+  tryParseJsonResponse(response) {
+    const trimmed = (response || '').trim();
+    if (!trimmed) return null;
 
-2. Exactly 3 key bullet points (each 1-2 sentences) highlighting the most important takeaways
+    const candidates = [trimmed];
+    const fencedMatch = trimmed.match(/```(?:json)?\s*([\s\S]+?)\s*```/i);
+    if (fencedMatch) {
+      candidates.unshift(fencedMatch[1].trim());
+    }
 
-Format your response EXACTLY as follows (keep the labels):
-SUMMARY: [Your detailed paragraph summary here - must be 4-6 sentences]
+    for (const candidate of candidates) {
+      try {
+        const parsed = JSON.parse(candidate);
+        if (
+          parsed &&
+          typeof parsed.summary === 'string' &&
+          Array.isArray(parsed.keyPoints)
+        ) {
+          return parsed;
+        }
+      } catch {
+        // Keep trying fallbacks.
+      }
+    }
 
-KEY POINTS:
-- [First key point with context]
-- [Second key point with context]
-- [Third key point with context]
-
-Important:
-- Write in a professional, journalistic tone
-- Be factual and objective - no opinions
-- Include specific details, names, numbers when available
-- Make the summary self-contained and informative
-- Do NOT start with "This article discusses" or similar meta-phrases
-- Start directly with the news itself`;
+    return null;
   }
 
   /**
@@ -81,6 +101,16 @@ Important:
     };
 
     try {
+      const json = this.tryParseJsonResponse(response);
+      if (json) {
+        result.text = json.summary.trim();
+        result.keyPoints = json.keyPoints
+          .map((point) => String(point).trim())
+          .filter(Boolean)
+          .slice(0, 3);
+        return result;
+      }
+
       // Extract summary
       const summaryMatch = response.match(/SUMMARY:\s*(.+?)(?=KEY POINTS:|$)/si);
       if (summaryMatch) {
@@ -119,11 +149,16 @@ Important:
    * @param {string} title - Article title
    * @returns {Object} - Summary object
    */
-  async generateSummary(articleText, title) {
+  async generateSummary(articleText, metadata = {}) {
     // Truncate if too long
     const truncatedText = truncateToWords(articleText, this.maxArticleWords);
 
-    const prompt = this.buildPrompt(truncatedText, title);
+    const prompt = this.buildPrompt({
+      articleText: truncatedText,
+      title: metadata.title,
+      description: metadata.description,
+      sourceName: metadata.sourceName,
+    });
 
     let lastError;
     for (let attempt = 0; attempt < this.maxRetries; attempt++) {
@@ -134,7 +169,7 @@ Important:
         const parsed = this.parseResponse(response);
 
         logger.debug('Summary generated', {
-          title: title.substring(0, 50),
+          title: (metadata.title || '').substring(0, 50),
           summaryLength: parsed.text.length,
           keyPoints: parsed.keyPoints.length,
         });
@@ -193,6 +228,16 @@ Important:
             wordCount: extracted.wordCount,
             readingTimeMinutes: extracted.readingTimeMinutes,
           };
+
+          if (!article.description && extracted.description) {
+            article.description = extracted.description;
+          }
+          if (!article.author && extracted.author) {
+            article.author = extracted.author;
+          }
+          if (!article.imageUrl && extracted.imageUrl) {
+            article.imageUrl = extracted.imageUrl;
+          }
         }
       }
 
@@ -201,8 +246,24 @@ Important:
         articleText = article.description || article.title;
       }
 
+      // Very short extracted bodies usually mean weak source content; enrich with
+      // title/description context so the model has something coherent to work with.
+      if (countWords(articleText) < 120) {
+        articleText = [
+          article.title,
+          article.description,
+          articleText,
+        ]
+          .filter(Boolean)
+          .join('\n\n');
+      }
+
       // Generate summary
-      const result = await this.generateSummary(articleText, article.title);
+      const result = await this.generateSummary(articleText, {
+        title: article.title,
+        description: article.description,
+        sourceName: article.source?.name,
+      });
 
       if (result.success) {
         article.summary = {
@@ -214,19 +275,13 @@ Important:
 
         logger.info(`Summary completed for: ${article.title?.substring(0, 40)}...`);
       } else {
-        // Use description as fallback
-        if (article.description) {
-          article.summary = {
-            text: article.description,
-            keyPoints: [],
-            generatedAt: new Date(),
-          };
-          article.summaryStatus = SUMMARY_STATUS.COMPLETED;
-          logger.info('Used description as fallback summary');
-        } else {
-          article.summaryStatus = SUMMARY_STATUS.FAILED;
-          logger.warn(`Summary failed for: ${article.title?.substring(0, 40)}...`);
-        }
+        article.summary = {
+          text: null,
+          keyPoints: [],
+          generatedAt: null,
+        };
+        article.summaryStatus = SUMMARY_STATUS.FAILED;
+        logger.warn(`Summary failed for: ${article.title?.substring(0, 40)}...`);
       }
 
       await article.save();

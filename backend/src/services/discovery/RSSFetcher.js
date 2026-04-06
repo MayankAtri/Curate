@@ -151,13 +151,6 @@ class RSSFetcher {
   inferTopics(item, source) {
     const topics = new Map();
 
-    // Add source topics with medium confidence
-    if (source.topics) {
-      for (const topic of source.topics) {
-        topics.set(topic.toLowerCase(), { name: topic.toLowerCase(), confidence: 0.6 });
-      }
-    }
-
     // Add category from source
     if (source.category) {
       topics.set(source.category.toLowerCase(), {

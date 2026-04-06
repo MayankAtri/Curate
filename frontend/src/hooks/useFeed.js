@@ -16,6 +16,7 @@ export function useFeed(options = {}) {
   const [selectedTopic, setSelectedTopic] = useState(null);
   const [strictTopicFilter, setStrictTopicFilter] = useState(false);
   const [liveSearchMode, setLiveSearchMode] = useState(false);
+  const [aiSummaryOnly, setAiSummaryOnly] = useState(false);
 
   // Ref to prevent duplicate fetches (React StrictMode calls useEffect twice)
   const fetchingRef = useRef(false);
@@ -28,7 +29,8 @@ export function useFeed(options = {}) {
     append = false,
     topic = undefined,
     strictTopic = undefined,
-    liveSearch = undefined
+    liveSearch = undefined,
+    requireSummary = undefined
   ) => {
     // Prevent duplicate concurrent fetches
     if (fetchingRef.current) {
@@ -39,6 +41,7 @@ export function useFeed(options = {}) {
     const topicToUse = topic !== undefined ? topic : selectedTopic;
     const strictTopicToUse = strictTopic !== undefined ? strictTopic : strictTopicFilter;
     const liveSearchToUse = liveSearch !== undefined ? liveSearch : liveSearchMode;
+    const summaryOnlyToUse = requireSummary !== undefined ? requireSummary : aiSummaryOnly;
 
     try {
       fetchingRef.current = true;
@@ -54,6 +57,7 @@ export function useFeed(options = {}) {
         topic: topicToUse,
         strictTopic: strictTopicToUse,
         liveSearch: liveSearchToUse && !append,
+        requireSummary: summaryOnlyToUse,
       });
 
       const newItems = response.items || [];
@@ -69,7 +73,7 @@ export function useFeed(options = {}) {
       setLoading(false);
       fetchingRef.current = false;
     }
-  }, [limit, cursor, selectedTopic, strictTopicFilter, liveSearchMode]);
+  }, [limit, cursor, selectedTopic, strictTopicFilter, liveSearchMode, aiSummaryOnly]);
 
   /**
    * Change topic and fetch filtered feed
@@ -80,8 +84,8 @@ export function useFeed(options = {}) {
     setLiveSearchMode(false);
     setCursor(null);
     setItems([]);
-    fetchFeed(false, topic, false, false);
-  }, [fetchFeed]);
+    fetchFeed(false, topic, false, false, aiSummaryOnly);
+  }, [fetchFeed, aiSummaryOnly]);
 
   /**
    * Strict topic search (no fallback to generic feed).
@@ -92,8 +96,8 @@ export function useFeed(options = {}) {
     setLiveSearchMode(true);
     setCursor(null);
     setItems([]);
-    fetchFeed(false, topic, true, true);
-  }, [fetchFeed]);
+    fetchFeed(false, topic, true, true, aiSummaryOnly);
+  }, [fetchFeed, aiSummaryOnly]);
 
   /**
    * Refresh feed (force regeneration)
@@ -101,7 +105,8 @@ export function useFeed(options = {}) {
   const refresh = useCallback(async (
     topic = undefined,
     strictTopic = undefined,
-    liveSearch = undefined
+    liveSearch = undefined,
+    requireSummary = undefined
   ) => {
     try {
       setLoading(true);
@@ -109,7 +114,7 @@ export function useFeed(options = {}) {
       setCursor(null);
 
       await feedService.refreshFeed();
-      await fetchFeed(false, topic, strictTopic, liveSearch);
+      await fetchFeed(false, topic, strictTopic, liveSearch, requireSummary);
 
     } catch (err) {
       console.error('Error refreshing feed:', err);
@@ -128,8 +133,16 @@ export function useFeed(options = {}) {
     setLiveSearchMode(false);
     setCursor(null);
     setItems([]);
-    await refresh(null, false, false);
-  }, [refresh]);
+    await refresh(null, false, false, aiSummaryOnly);
+  }, [refresh, aiSummaryOnly]);
+
+  const toggleAiSummaryOnly = useCallback(async () => {
+    const nextValue = !aiSummaryOnly;
+    setAiSummaryOnly(nextValue);
+    setCursor(null);
+    setItems([]);
+    await fetchFeed(false, selectedTopic, strictTopicFilter, liveSearchMode, nextValue);
+  }, [aiSummaryOnly, fetchFeed, selectedTopic, strictTopicFilter, liveSearchMode]);
 
   /**
    * Load more items
@@ -182,12 +195,14 @@ export function useFeed(options = {}) {
     stats,
     selectedTopic,
     strictTopicFilter,
+    aiSummaryOnly,
     changeTopic,
     searchTopic,
     refresh,
     backToRegularFeed,
     loadMore,
-    retry: () => fetchFeed(false, selectedTopic, strictTopicFilter, liveSearchMode),
+    toggleAiSummaryOnly,
+    retry: () => fetchFeed(false, selectedTopic, strictTopicFilter, liveSearchMode, aiSummaryOnly),
   };
 }
 

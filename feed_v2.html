@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,700;6..72,800;6..72,900&amp;family=Public+Sans:wght@300;400;700;900&amp;family=Space+Grotesk:wght@300;400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-surface-variant": "#5e3f38",
+              "error": "#ba1a1a",
+              "inverse-surface": "#31302d",
+              "on-tertiary-fixed": "#001b3d",
+              "on-error": "#ffffff",
+              "surface-dim": "#ddd9d5",
+              "surface-container": "#f1ede8",
+              "on-secondary": "#ffffff",
+              "primary-fixed-dim": "#ffb4a4",
+              "tertiary-fixed": "#d6e3ff",
+              "outline-variant": "#e9bdb3",
+              "surface-container-low": "#f7f3ee",
+              "secondary-fixed": "#e2e2e2",
+              "on-primary-fixed-variant": "#8c1800",
+              "on-tertiary-container": "#fefcff",
+              "secondary-container": "#e2e2e2",
+              "on-primary": "#ffffff",
+              "outline": "#936e66",
+              "error-container": "#ffdad6",
+              "surface-tint": "#b72200",
+              "on-secondary-fixed": "#1b1b1b",
+              "on-primary-fixed": "#3e0500",
+              "tertiary": "#005bb2",
+              "surface-container-lowest": "#ffffff",
+              "secondary": "#5e5e5e",
+              "primary-container": "#e02c00",
+              "on-surface": "#1c1c19",
+              "on-error-container": "#93000a",
+              "tertiary-fixed-dim": "#a9c7ff",
+              "background": "#fdf9f4",
+              "on-secondary-container": "#646464",
+              "secondary-fixed-dim": "#c6c6c6",
+              "on-tertiary-fixed-variant": "#00468b",
+              "inverse-on-surface": "#f4f0eb",
+              "on-tertiary": "#ffffff",
+              "on-primary-container": "#fffbff",
+              "surface-bright": "#fdf9f4",
+              "surface-container-highest": "#e6e2dd",
+              "surface": "#fdf9f4",
+              "surface-container-high": "#ebe8e3",
+              "primary-fixed": "#ffdad3",
+              "on-secondary-fixed-variant": "#474747",
+              "inverse-primary": "#ffb4a4",
+              "tertiary-container": "#0073de",
+              "surface-variant": "#e6e2dd",
+              "primary": "#b32100",
+              "on-background": "#1c1c19"
+            },
+            fontFamily: {
+              "headline": ["Newsreader"],
+              "body": ["Public Sans"],
+              "label": ["Space Grotesk"]
+            },
+            borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hard-shadow {
+            box-shadow: 4px 4px 0px 0px #1c1c19;
+        }
+        .active-nav-shadow {
+            box-shadow: inset 0px 0px 0px 0px #000;
+        }
+        body {
+            background-color: #fdf9f4;
+            color: #1c1c19;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body selection:bg-primary selection:text-white">
+<!-- TopAppBar -->
+<nav class="flex justify-between items-center w-full px-6 py-8 h-24 bg-[#fdf9f4] dark:bg-[#1c1c19] docked full-width top-0 border-b-4 border-black dark:border-white z-50 sticky">
+<div class="flex items-center">
+<span class="material-symbols-outlined text-black dark:text-white text-3xl">menu</span>
+</div>
+<h1 class="text-[3.5rem] font-headline font-black text-black dark:text-white tracking-tighter uppercase leading-none">CURATE</h1>
+<div class="flex items-center">
+<span class="material-symbols-outlined text-black dark:text-white text-3xl">search</span>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="pb-40">
+<!-- Section Header -->
+<header class="px-6 py-12 border-b-4 border-black bg-surface-container-low">
+<p class="font-label text-sm font-bold tracking-widest text-primary uppercase mb-2">INTELLIGENCE REPORT / 2024</p>
+<h2 class="font-headline text-6xl font-black tracking-tighter uppercase leading-[0.9] break-words">
+                LATEST<br/>INTELLIGENCE
+            </h2>
+</header>
+<!-- Ticker (Sub-header) -->
+<div class="bg-black text-white py-3 overflow-hidden whitespace-nowrap border-b-4 border-black flex items-center">
+<div class="flex animate-marquee gap-8 items-center px-4">
+<span class="font-label text-xs font-bold uppercase flex items-center gap-2">
+<span class="w-2 h-2 bg-primary rounded-full"></span>
+                    NASDAQ +1.24%
+                </span>
+<span class="font-label text-xs font-bold uppercase flex items-center gap-2">
+<span class="w-2 h-2 bg-primary rounded-full"></span>
+                    BTC $64,210
+                </span>
+<span class="font-label text-xs font-bold uppercase flex items-center gap-2">
+<span class="w-2 h-2 bg-primary rounded-full"></span>
+                    CLIMATE ACCORD UPDATED
+                </span>
+<span class="font-label text-xs font-bold uppercase flex items-center gap-2">
+<span class="w-2 h-2 bg-primary rounded-full"></span>
+                    AI CHIP PRODUCTION SURGE
+                </span>
+</div>
+</div>
+<!-- Feed List -->
+<div class="flex flex-col">
+<!-- Article Card 1 (Large) -->
+<article class="p-6 border-b-4 border-black">
+<div class="relative mb-6 border-4 border-black group">
+<img alt="Scientific lab" class="w-full aspect-[4/3] object-cover block" data-alt="vibrant neon blue and pink laboratory equipment with bubbling chemicals and high tech lasers in a modern clean lab setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuChtUyBQD0e7M4KTBXPGufr3DIjaRrzefO2LpZqbIWAVlIBRlxuT4GMHi-FFMNtL2l2tmwWsa2TwNJ_UwnTHia131U6wvbxsjKZdMrQ9ncoaNYvLPQAzQH-TdQKwNgTQmbS_8ZPrydbIsyXTQ_ZKQ1HGMh3SPto0Px4uXas9DjXmSi9_6p-86y2dQaoUIST7Z8UAq_C-WfltREa5JhxwVnvYVY0qM86kWadytHX74YRTgen3PUf-ixHo4KfNRL6-v19vpx2DZQT"/>
+<div class="absolute bottom-0 right-0 bg-primary text-white px-4 py-2 font-label text-sm font-bold uppercase border-l-4 border-t-4 border-black">
+                        #SCIENCE
+                    </div>
+</div>
+<h3 class="font-headline text-4xl font-black tracking-tighter leading-none mb-4 uppercase">The Fusion Frontier: Commercial Energy Within Reach</h3>
+<p class="font-body text-lg leading-snug mb-6 text-on-surface">New breakthroughs in plasma containment suggest a future of limitless clean power by 2030.</p>
+<div class="flex justify-between items-center">
+<span class="font-label text-xs font-bold border-2 border-black px-3 py-1">READ STORY</span>
+<span class="font-label text-xs font-bold">12 MIN READ</span>
+</div>
+</article>
+<!-- Article Card 2 (Grid Layout Variant) -->
+<article class="p-6 border-b-4 border-black bg-surface-container">
+<div class="flex flex-col gap-6">
+<div class="relative border-4 border-black">
+<img alt="Economic data" class="w-full aspect-video object-cover block" data-alt="vivid high contrast trading floor screens showing bright green and red financial charts and data visualizations with intense lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvEZjE9J_4orwctlTSloNEe1tD7uwF1VtaVsJoq90A_nCkPRkAFfAglqrpyxOr-l0blyBUFTR3TEH91e3kywaa_0cP2_v3-I6J4zxrc3gp_KKqJZDkLQoZb1mo1MjQjdB-0HBktaDvYgDl4woeVFNuqCDCGXvp5jVdey8IqpbpcMeOQTZGkQx3sPMeGcnjIh8mgjOAz4uSe8tPVIJkcsw5ZQ7e8xzxWlwFiIetvS4l2WOBtjHr293IJn94CrvyRi-gbcr5lSJE"/>
+<div class="absolute bottom-0 right-0 bg-primary text-white px-4 py-2 font-label text-sm font-bold uppercase border-l-4 border-t-4 border-black">
+                            #ECONOMY
+                        </div>
+</div>
+<div>
+<h3 class="font-headline text-3xl font-black tracking-tighter leading-[0.9] mb-4 uppercase">Hyper-Local Currencies Rise in Digital Metropolises</h3>
+<p class="font-body text-md leading-tight mb-4">Cities are launching independent sovereign tokens to protect local labor from global inflation volatility.</p>
+<div class="flex justify-between items-center">
+<span class="font-label text-xs font-bold border-2 border-black px-3 py-1">ANALYSIS</span>
+<span class="font-label text-xs font-bold uppercase">Today / 14:02</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Article Card 3 (Vertical Stack) -->
+<article class="p-6 border-b-4 border-black">
+<div class="relative mb-6 border-4 border-black">
+<img alt="Abstract culture" class="w-full aspect-square object-cover block" data-alt="brightly colored futuristic street art installation in a vibrant urban plaza with people in stylish high-fashion clothing" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMAaQP0J3BOBz-csKN4u5NzaE6Ay_SUV1ZNt9hPQWfsyt4Q_3DRM44JMUIesAwyPJIBZzrQNQPmh-4TqESH1GzA3m0m6QLRqB93_mlQH_YWMKsZWhlv16f0fnhkTta6X6PB2S84nITpI_cXG9B0JGqnBvi3Mr4FnnuUTEC1PyYuD1tFmWlVGqGanhCWHCiqf4wSiVAjqIpRkd8_CC6rv5CgH0apm4MqAYjc1fHjzMiEir8XXbVWRsYKSQ1TWgYxA7NJvZ5AcMm"/>
+<div class="absolute bottom-0 right-0 bg-primary text-white px-4 py-2 font-label text-sm font-bold uppercase border-l-4 border-t-4 border-black">
+                        #CULTURE
+                    </div>
+</div>
+<h3 class="font-headline text-4xl font-black tracking-tighter leading-none mb-4 uppercase">Bio-Luminescent Textiles: The Next Fashion Revolution</h3>
+<p class="font-body text-lg leading-snug mb-6">Designers are utilizing living algae cells to create clothing that glows and breathes in response to the environment.</p>
+<div class="flex justify-between items-center">
+<button class="bg-black text-white px-6 py-3 font-label text-sm font-bold uppercase transition-none hard-shadow active:translate-x-1 active:translate-y-1 active:shadow-none">
+                        OPEN ARCHIVE
+                    </button>
+<span class="font-label text-xs font-bold uppercase">5.2K VIEWS</span>
+</div>
+</article>
+<!-- Metrics Section (Featured Row) -->
+<section class="bg-surface-container-highest p-6 border-b-4 border-black">
+<h4 class="font-label text-xs font-bold uppercase tracking-widest mb-6">MARKET VELOCITY</h4>
+<div class="grid grid-cols-2 gap-4">
+<div class="border-4 border-black bg-background p-4 flex flex-col justify-between aspect-square">
+<span class="font-label text-xs font-bold">TECH/IDX</span>
+<div class="font-headline text-5xl font-black text-primary">82%</div>
+<span class="font-label text-[10px] font-bold text-green-600 uppercase">Extreme Momentum</span>
+</div>
+<div class="border-4 border-black bg-background p-4 flex flex-col justify-between aspect-square">
+<span class="font-label text-xs font-bold">VOL/SENT</span>
+<div class="font-headline text-5xl font-black">24.5</div>
+<span class="font-label text-[10px] font-bold text-red-600 uppercase">High Volatility</span>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-stretch h-20 bg-[#fdf9f4] dark:bg-[#1c1c19] border-t-4 border-black dark:border-white">
+<!-- FEED (Active) -->
+<a class="flex flex-col items-center justify-center bg-[#FF3300] text-white p-4 h-full flex-1 transition-none" href="#">
+<span class="material-symbols-outlined mb-1">grid_view</span>
+<span class="text-[12px] font-mono font-bold uppercase">FEED</span>
+</a>
+<!-- METRICS -->
+<a class="flex flex-col items-center justify-center text-black dark:text-white p-4 h-full flex-1 hover:bg-[#f1ede8] dark:hover:bg-[#333] transition-none" href="#">
+<span class="material-symbols-outlined mb-1">analytics</span>
+<span class="text-[12px] font-mono font-bold uppercase">METRICS</span>
+</a>
+<!-- ARCHIVE -->
+<a class="flex flex-col items-center justify-center text-black dark:text-white p-4 h-full flex-1 hover:bg-[#f1ede8] dark:hover:bg-[#333] transition-none" href="#">
+<span class="material-symbols-outlined mb-1">inventory_2</span>
+<span class="text-[12px] font-mono font-bold uppercase">ARCHIVE</span>
+</a>
+<!-- PROFILE -->
+<a class="flex flex-col items-center justify-center text-black dark:text-white p-4 h-full flex-1 hover:bg-[#f1ede8] dark:hover:bg-[#333] transition-none" href="#">
+<span class="material-symbols-outlined mb-1">person</span>
+<span class="text-[12px] font-mono font-bold uppercase">PROFILE</span>
+</a>
+</nav>
+<!-- Floating Action Button (FAB) - Suppression logic: Primary action on home/feed -->
+<button class="fixed right-6 bottom-28 w-16 h-16 bg-primary border-4 border-black text-white flex items-center justify-center hard-shadow hover:translate-x-[-4px] hover:translate-y-[-4px] active:translate-x-0 active:translate-y-0 active:shadow-none z-40 transition-none">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+</body></html>

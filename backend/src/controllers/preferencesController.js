@@ -1,6 +1,11 @@
 import UserPreference from '../models/UserPreference.js';
 import { PREFERENCE_SOURCE, PREFERENCE_TYPE } from '../config/constants.js';
 import { logger } from '../utils/logger.js';
+import FeedGenerator from '../services/feed/FeedGenerator.js';
+import FeedCache from '../services/feed/FeedCache.js';
+
+const feedGenerator = new FeedGenerator();
+const feedCache = new FeedCache();
 
 /**
  * GET /api/preferences/topics
@@ -59,6 +64,9 @@ export async function updateTopicPreferences(req, res, next) {
         { $set: { active: false } }
       );
 
+      await feedGenerator.invalidateCache(req.userId);
+      await feedCache.invalidateFeed(req.userId);
+
       return res.json({ topics: [] });
     }
 
@@ -91,6 +99,9 @@ export async function updateTopicPreferences(req, res, next) {
       topicCount: normalizedTopics.length,
     });
 
+    await feedGenerator.invalidateCache(req.userId);
+    await feedCache.invalidateFeed(req.userId);
+
     res.json({
       topics: normalizedTopics,
     });
@@ -99,4 +110,3 @@ export async function updateTopicPreferences(req, res, next) {
     next(error);
   }
 }
-

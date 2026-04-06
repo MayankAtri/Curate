@@ -1,17 +1,6 @@
 import { useState, useMemo } from 'react';
 import { interactionService } from '../services/api';
-
-/**
- * Get placeholder image URL based on category/topics
- * Uses Picsum for reliable, fast placeholder images
- */
-function getPlaceholderImage(article) {
-  // Generate a consistent seed from article title for consistent images
-  const seed = article.title ? article.title.slice(0, 20).replace(/\s/g, '') : 'news';
-
-  // Use Picsum for reliable placeholder images (800x600)
-  return `https://picsum.photos/seed/${encodeURIComponent(seed)}/800/600`;
-}
+import { getResolvedArticleImage } from '../utils/articleImages';
 
 /**
  * Format relative time
@@ -49,14 +38,13 @@ function NewsCard({ article, relevance, onClick, variant = 'standard', className
     source,
     publishedAt,
     summary,
+    summaryStatus,
   } = article;
 
   const handleImageError = () => {
     if (!imageError) {
-      // Original image failed, will try placeholder
       setImageError(true);
     } else {
-      // Placeholder also failed
       setPlaceholderError(true);
     }
   };
@@ -76,23 +64,34 @@ function NewsCard({ article, relevance, onClick, variant = 'standard', className
   };
 
   const handleCardClick = () => {
-    // Track the click interaction
     interactionService.trackClick(_id).catch(console.error);
-    // Call parent handler
     onClick(article);
   };
 
-  const summaryText = summary?.text || article.description || '';
+  const hasAiSummary = Boolean(
+    summaryStatus === 'COMPLETED' &&
+    summary?.text &&
+    ((Array.isArray(summary?.keyPoints) && summary.keyPoints.length > 0) ||
+      summary.text !== article.description)
+  );
+  const summaryText = hasAiSummary ? summary?.text || '' : article.description || summary?.text || '';
   const sourceName = source?.name || 'Unknown Source';
-  const scorePercent = relevance?.score ? Math.round(relevance.score * 100) : null;
+  const normalizedImportance = Number.isFinite(Number(article?.importanceScore))
+    ? Number(article.importanceScore)
+    : Number(relevance?.score || 0);
+  const scorePercent = Math.round(Math.max(0, Math.min(1, normalizedImportance)) * 100);
+  const significanceLabel =
+    variant === 'hero'
+      ? 'Top story'
+      : variant === 'medium'
+        ? 'Editor pick'
+        : 'Brief';
 
-  // Get image URL - use placeholder if no image available
   const displayImageUrl = useMemo(() => {
     if (imageUrl && !imageError) return imageUrl;
-    return getPlaceholderImage(article);
+    return getResolvedArticleImage(article, '800/600').url;
   }, [imageUrl, imageError, article]);
 
-  // Variant Classes
   const variantClass = `card-variant-${variant}`;
 
   return (
@@ -111,28 +110,28 @@ function NewsCard({ article, relevance, onClick, variant = 'standard', className
         ) : (
           <div className="card-placeholder-gradient" />
         )}
-        <div className="card-gradient-overlay" />
       </div>
 
       <div className="card-content-overlay">
         <div className="card-header">
-          {scorePercent !== null && (
-            <span className="match-pill">{scorePercent}% match</span>
-          )}
+          <div className="card-signal-stack">
+            <span className="match-pill">{scorePercent}% importance</span>
+            <span className={`signal-pill signal-${variant}`}>{significanceLabel}</span>
+          </div>
           <div className="card-actions-mini">
             <button
               onClick={handleLike}
               className={reaction === 'like' ? 'active' : ''}
               aria-label="Like article"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill={reaction === 'like' ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" /></svg>
+              {reaction === 'like' ? 'LIKED' : 'LIKE'}
             </button>
             <button
               onClick={handleBookmark}
               className={isBookmarked ? 'active' : ''}
               aria-label="Bookmark article"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill={isBookmarked ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" /></svg>
+              {isBookmarked ? 'SAVED' : 'SAVE'}
             </button>
           </div>
         </div>
@@ -145,7 +144,7 @@ function NewsCard({ article, relevance, onClick, variant = 'standard', className
           </div>
           <h3 className="title">{title}</h3>
 
-          {(variant === 'hero' || variant === 'featured') && (
+          {variant === 'hero' && (
             <p className="summary">{summaryText}</p>
           )}
         </div>

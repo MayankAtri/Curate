@@ -165,6 +165,7 @@ export const feedService = {
       topic = null,
       strictTopic = false,
       liveSearch = false,
+      requireSummary = false,
     } = options;
     const params = new URLSearchParams();
     if (limit) params.append('limit', limit);
@@ -172,6 +173,7 @@ export const feedService = {
     if (topic) params.append('topic', topic);
     if (strictTopic) params.append('strictTopic', 'true');
     if (liveSearch) params.append('liveSearch', 'true');
+    if (requireSummary) params.append('requireSummary', 'true');
 
     const response = await api.get(`/feed?${params}`);
     return response.data;

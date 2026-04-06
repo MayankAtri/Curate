@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CURATE | Access the Signal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,700;1,400;1,700&amp;family=Work+Sans:wght@400;500;600&amp;family=Space+Grotesk:wght@400;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-bright": "#fdf9f4",
+              "error-container": "#ffdad6",
+              "tertiary-fixed-dim": "#a9c7ff",
+              "surface-container-high": "#ebe8e3",
+              "on-secondary-fixed-variant": "#474747",
+              "surface-dim": "#ddd9d5",
+              "inverse-on-surface": "#f4f0eb",
+              "on-secondary": "#ffffff",
+              "on-secondary-container": "#646464",
+              "surface-tint": "#b72200",
+              "on-primary-fixed": "#3e0500",
+              "tertiary-container": "#0073de",
+              "on-secondary-fixed": "#1b1b1b",
+              "secondary-fixed-dim": "#c6c6c6",
+              "surface-container-low": "#f7f3ee",
+              "on-primary-fixed-variant": "#8c1800",
+              "outline": "#936e66",
+              "surface-container-highest": "#e6e2dd",
+              "on-tertiary-fixed-variant": "#00468b",
+              "outline-variant": "#e9bdb3",
+              "on-error-container": "#93000a",
+              "secondary-container": "#e2e2e2",
+              "surface-container": "#f1ede8",
+              "on-surface-variant": "#5e3f38",
+              "on-tertiary": "#ffffff",
+              "primary-fixed": "#ffdad3",
+              "on-error": "#ffffff",
+              "tertiary-fixed": "#d6e3ff",
+              "primary": "#b32100",
+              "secondary-fixed": "#e2e2e2",
+              "secondary": "#5e5e5e",
+              "inverse-primary": "#ffb4a4",
+              "surface-variant": "#e6e2dd",
+              "on-tertiary-fixed": "#001b3d",
+              "primary-container": "#e02c00",
+              "surface": "#fdf9f4",
+              "on-surface": "#1c1c19",
+              "inverse-surface": "#31302d",
+              "on-primary": "#ffffff",
+              "tertiary": "#005bb2",
+              "primary-fixed-dim": "#ffb4a4",
+              "background": "#fdf9f4",
+              "on-background": "#1c1c19",
+              "surface-container-lowest": "#ffffff",
+              "error": "#ba1a1a",
+              "on-primary-container": "#fffbff",
+              "on-tertiary-container": "#fefcff"
+            },
+            fontFamily: {
+              "headline": ["Newsreader", "serif"],
+              "body": ["Work Sans", "sans-serif"],
+              "label": ["Space Grotesk", "monospace"]
+            },
+            borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body {
+        background-color: #fdf9f4;
+        color: #1c1c19;
+      }
+      .hard-border {
+        border: 4px solid #1c1c19;
+      }
+      .custom-transition {
+        transition: all 100ms linear;
+      }
+    </style>
+</head>
+<body class="font-body antialiased min-h-screen">
+<main class="flex min-h-screen w-full overflow-hidden">
+<!-- Left Side (60% width) -->
+<section class="hidden lg:flex flex-col w-[60%] bg-[#f4f0eb] p-12 relative overflow-hidden">
+<!-- Masthead Anchor -->
+<div class="z-20 mb-auto">
+<h1 class="text-4xl font-headline italic font-extrabold tracking-tighter text-on-surface">CURATE</h1>
+<div class="mt-2 h-1 w-24 bg-primary"></div>
+</div>
+<!-- Hero Typography -->
+<div class="z-20 my-12">
+<h2 class="text-8xl font-headline font-bold leading-[0.9] text-on-surface tracking-tight max-w-2xl">
+                    ACCESS THE SIGNAL.
+                </h2>
+<p class="font-label text-sm uppercase tracking-[0.2em] mt-8 text-on-surface-variant max-w-md">
+                    The intelligence layer for the modern economy. Rigorous analysis. Unfiltered perspective. 
+                </p>
+</div>
+<!-- Featured Editorial Image -->
+<div class="z-10 mt-auto hard-border aspect-[16/9] w-full overflow-hidden">
+<img alt="Cybersecurity and digital interface" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500 cursor-crosshair" data-alt="Close-up of high-contrast digital stock market graphs and data visualization glowing against a dark textured background in editorial style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbSNvjedOCQ-btJCzF7EwBLc6cBelvNSldemrFFAmLJIPyhGvEjYQ9CUMJK3nVmd3wdCFIshD85Iddn01GQd-1MZFkuGbldP35YLlJIKQ_wmRxbAiyMsqA8nYTiYrl9hyDto8vT0jCG2Nuas8B3HyN_ccPJsFraPW3oYaJYJzHs5B7btFo9Rtif0Rrj9L80Vog5XtTJx2e3FDXdQFUXp3htS2P4mK2xwqBks0KZ-aNDIRpVoP9pvi5_ry94jGwt8Vfnx3_3gAn"/>
+</div>
+<!-- Absolute Decorative Element -->
+<div class="absolute -right-16 top-1/2 -translate-y-1/2 rotate-90 hidden xl:block">
+<span class="font-label text-[120px] leading-none opacity-5 select-none font-bold">EDITION 2024.1</span>
+</div>
+</section>
+<!-- Right Side (40% width) -->
+<section class="w-full lg:w-[40%] bg-[#f4f0eb] p-8 lg:p-16 flex flex-col justify-center items-center relative">
+<div class="w-full max-w-md space-y-12">
+<!-- Branding for Mobile/Small Screens -->
+<div class="lg:hidden text-center mb-12">
+<h1 class="text-5xl font-headline italic font-extrabold tracking-tighter text-on-surface">CURATE</h1>
+<div class="mt-4 font-label text-xs uppercase tracking-widest text-primary">Establish Connection</div>
+</div>
+<!-- Technical Form Container -->
+<div class="hard-border bg-surface p-10 shadow-[8px_8px_0px_0px_rgba(28,28,25,1)]">
+<header class="mb-10 border-b-4 border-on-surface pb-6">
+<h3 class="font-label text-xs font-bold uppercase tracking-widest text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">terminal</span>
+                            Authorization Portal
+                        </h3>
+</header>
+<form class="space-y-8">
+<!-- User Identifier -->
+<div class="space-y-2">
+<label class="font-label text-[10px] font-bold uppercase tracking-widest text-on-surface-variant block" for="user_identifier">
+                                USER_IDENTIFIER
+                            </label>
+<input class="w-full hard-border bg-surface-container-lowest px-4 py-4 font-label text-sm focus:ring-0 focus:outline-none placeholder:text-stone-300 custom-transition focus:bg-white" id="user_identifier" placeholder="ENTER EMAIL OR UID" type="text"/>
+</div>
+<!-- Access Code -->
+<div class="space-y-2">
+<label class="font-label text-[10px] font-bold uppercase tracking-widest text-on-surface-variant block" for="access_code">
+                                ACCESS_CODE
+                            </label>
+<div class="relative">
+<input class="w-full hard-border bg-surface-container-lowest px-4 py-4 font-label text-sm focus:ring-0 focus:outline-none placeholder:text-stone-300 custom-transition focus:bg-white" id="access_code" placeholder="••••••••" type="password"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-stone-400 hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-sm">visibility</span>
+</button>
+</div>
+</div>
+<!-- CTA Button -->
+<div class="pt-4">
+<button class="w-full bg-[#ff3300] text-white font-label font-bold py-5 hard-border uppercase tracking-widest text-sm hover:bg-stone-900 hover:text-[#fdf9f4] custom-transition active:translate-y-1 active:translate-x-1 active:shadow-none" type="submit">
+                                ESTABLISH CONNECTION
+                            </button>
+</div>
+</form>
+<div class="mt-10 flex justify-between items-center text-[10px] font-label text-on-surface-variant uppercase tracking-widest">
+<a class="hover:text-primary underline decoration-2 underline-offset-4" href="#">Lost Access?</a>
+<span>SECURE_NODE_04</span>
+</div>
+</div>
+<!-- Footer Links -->
+<div class="text-center space-y-4">
+<p class="font-label text-[11px] font-bold uppercase tracking-[0.2em] text-on-surface">
+                        NEW TO THE ARCHIVE? <a class="text-primary hover:underline underline-offset-4" href="#">SIGN-UP FOR ACCESS</a>
+</p>
+<div class="flex justify-center gap-6 font-label text-[9px] text-stone-400 uppercase tracking-widest">
+<a class="hover:text-on-surface" href="#">Legal</a>
+<a class="hover:text-on-surface" href="#">Encryption</a>
+<a class="hover:text-on-surface" href="#">Help</a>
+</div>
+</div>
+</div>
+<!-- Metadata Layer Decor -->
+<div class="absolute bottom-8 right-8 font-label text-[10px] text-stone-300 pointer-events-none hidden lg:block">
+                TIMESTAMP: 2024.05.21.09:42:11.UTC
+            </div>
+</section>
+</main>
+<!-- Global Layout Decorative Border -->
+<div class="fixed top-0 left-0 w-full h-1 bg-on-surface z-50"></div>
+<div class="fixed bottom-0 left-0 w-full h-1 bg-on-surface z-50"></div>
+<div class="fixed top-0 left-0 h-full w-1 bg-on-surface z-50"></div>
+<div class="fixed top-0 right-0 h-full w-1 bg-on-surface z-50"></div>
+</body></html>

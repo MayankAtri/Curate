@@ -1,54 +1,53 @@
-/* High-End Editorial Minimalistic Theme - Curate */
+/* Information-Dense Editorial Brutalism - Curate */
 
 :root {
-  /* Colors - Stark Onyx & Pure White */
-  --bg-primary: #050505;
-  --bg-secondary: #0a0a0a;
-  --bg-tertiary: #111111;
-  --bg-card: #050505;
-  --bg-card-hover: #ffffff;
-  /* Invert on hover */
-  --bg-elevated: #000000;
+  /* Colors - Stark & Brutal */
+  --bg-primary: #F4F0EB; /* Newsprint Off-White */
+  --bg-secondary: #EBE5DF; /* Darker paper */
+  --bg-tertiary: #FFFFFF; /* Pure White for contrast areas */
+  --bg-elevated: #111111; /* Inverse */
 
-  /* Text Colors - Maximum Contrast */
-  --text-primary: #fafafa;
-  --text-secondary: #888888;
-  --text-tertiary: #555555;
-  --text-inverted: #050505;
-  /* Black text on white hover */
+  --bg-card: #F4F0EB;
+  --bg-card-hover: #FFFFFF;
 
-  /* Accent Colors - Used very sparingly */
-  --accent-primary: #f0f0f0;
-  /* Soft white for accents */
-  --accent-primary-rgb: 240, 240, 240;
+  /* Text Colors - High Contrast Ink */
+  --text-primary: #111111; /* Deep Ink Black */
+  --text-secondary: #444444; /* Charcoal */
+  --text-tertiary: #666666; /* Muted Ink */
+  --text-inverted: #F4F0EB; /* Light on dark */
 
-  /* The single pop of color if needed (e.g. error states or badges) - Raw Red */
-  --accent-raw: #f2132d;
-  --accent-raw-rgb: 242, 19, 45;
+  /* Accent Colors - Aggressive */
+  --accent-primary: #FF3300; /* Electric Vermilion */
+  --accent-primary-rgb: 255, 51, 0;
+  --accent-hover: #E62E00;
 
-  /* Borders and Separators - Hard, sharp lines */
-  --separator: rgba(255, 255, 255, 0.1);
-  --separator-strong: rgba(255, 255, 255, 0.2);
-  --separator-stark: #ffffff;
-  --grid-line: rgba(255, 255, 255, 0.08);
+  /* Error/Danger State */
+  --accent-raw: #FF0000;
 
-  /* Shadows - REMOVED for brutalist aesthetic. Replaced with offset borders if needed. */
-  --shadow-sm: none;
-  --shadow-md: none;
-  --shadow-lg: none;
-  --shadow-glow: none;
+  /* Borders and Separators - Hard & Thick */
+  --separator: #111111;
+  --separator-strong: #111111;
+  --border-width: 2px;
+  --border-thick: 4px;
+  --border-solid: var(--border-width) solid var(--separator);
 
+  /* Shadows - Hard, Brutalist Drop Shadows */
+  --shadow-sm: 2px 2px 0px #111111;
+  --shadow-md: 4px 4px 0px #111111;
+  --shadow-lg: 8px 8px 0px #111111;
+  --shadow-float: 12px 12px 0px #111111;
+  
   /* Expressive Transitions - Snappy, mechanical */
-  --ease-elastic: cubic-bezier(0, 0, 0.2, 1);
-  --ease-smooth: cubic-bezier(0, 0, 0.2, 1);
-  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-elastic: cubic-bezier(0.87, 0, 0.13, 1);
+  --ease-smooth: cubic-bezier(0.85, 0, 0.15, 1);
+  --ease-in-out: cubic-bezier(0.85, 0, 0.15, 1);
   --duration-fast: 0.1s;
   --duration-normal: 0.2s;
   --duration-slow: 0.4s;
 
-  /* Typography - Massive, Structural */
-  --font-display: 'Outfit', -apple-system, sans-serif;
-  --font-body: 'Inter', -apple-system, sans-serif;
+  /* Typography - Editorial + Technical */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Chivo Mono', monospace;
 
   /* Spacing */
   --space-1: 0.25rem;
@@ -60,40 +59,25 @@
   --space-8: 3rem;
   --space-12: 4rem;
 
-  /* Border Radius - ZERO or extremely sharp */
+  /* Border Radius - NO RADIUS. Brutalism. */
   --radius-sm: 0px;
   --radius-md: 0px;
   --radius-lg: 0px;
   --radius-xl: 0px;
-  --radius-full: 9999px;
-  /* Reserved ONLY for pills/badges */
+  --radius-full: 0px;
 
   /* Layout */
-  --card-padding: 2rem;
-  --grid-gap: 1.5rem;
+  --card-padding: 1.5rem;
+  --grid-gap: 2rem;
   --header-height: 80px;
 }
 
 ::selection {
-  background: var(--text-primary);
-  color: var(--bg-primary);
+  background: var(--accent-primary);
+  color: #FFFFFF;
 }
 
-/* ------------------- GLOBAL GRID BACKGROUND ------------------- */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: -1;
-  background-size: 100px 100px;
-  background-image:
-    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
-  mask-image: linear-gradient(to bottom, black 30%, transparent 95%);
-  -webkit-mask-image: linear-gradient(to bottom, black 30%, transparent 95%);
-}
-
+/* ------------------- GLOBAL RESETS ------------------- */
 * {
   margin: 0;
   padding: 0;
@@ -103,86 +87,114 @@ body::before {
 html {
   font-size: 16px;
   scroll-behavior: smooth;
+  background: var(--bg-primary);
 }
 
 body {
   font-family: var(--font-body);
   background: var(--bg-primary);
   color: var(--text-primary);
-  line-height: 1.6;
-  letter-spacing: -0.01em;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
+  text-rendering: geometricPrecision;
+  /* subtle grain background */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
 }
 
-/* Headings inherit Display font */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  text-transform: uppercase;
+  font-weight: 400; /* Fraunces looks best slightly lighter or very heavy */
+  font-style: normal;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  text-transform: none;
 }
+
+h1 { font-size: 4rem; font-weight: 600; }
+h2 { font-size: 3rem; font-weight: 500; }
+h3 { font-size: 2rem; font-weight: 500; }
 
 @media (max-width: 900px) {
   :root {
     --header-height: 64px;
   }
+  h1 { font-size: 3rem; }
+  h2 { font-size: 2.25rem; }
 }
 
-/* Custom Minimal Scrollbar - Blocky */
+/* Custom Minimal Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 12px;
+  height: 12px;
+  border-left: var(--border-solid);
 }
 
 ::-webkit-scrollbar-track {
   background: var(--bg-primary);
-  border-left: 1px solid var(--grid-line);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--separator-strong);
+  background: var(--text-primary);
+  border: 2px solid var(--bg-primary);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #fff;
+  background: var(--accent-primary);
 }
 
 /* App Container */
-#root,
-.app {
+#root, .app {
   min-height: 100vh;
-  background: transparent;
   display: flex;
   flex-direction: column;
 }
 
-/* Utility Animations - Mechanical and sharp */
+/* Utility Layouts & Shadows */
+.glass-panel {
+  background: var(--bg-tertiary);
+  border: var(--border-solid);
+  box-shadow: var(--shadow-md);
+  border-radius: 0;
+}
+
+/* Utility Animations */
 .hover-lift {
-  transition: transform var(--duration-fast) var(--ease-elastic),
-    background var(--duration-fast),
-    color var(--duration-fast);
+  transition: transform var(--duration-fast) var(--ease-smooth),
+    box-shadow var(--duration-fast) var(--ease-smooth);
 }
 
 .hover-lift:hover {
-  transform: translateY(-4px);
-  background: #fff;
-  color: #000;
+  transform: translate(-4px, -4px);
+  box-shadow: var(--shadow-lg);
 }
 
-.hover-glow {
-  /* No glows allowed in editorial. Replaced with sharp border interaction. */
-  transition: border-color var(--duration-fast);
+button, .button {
+  font-family: var(--font-body);
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  border: var(--border-solid);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 0.75rem 1.5rem;
+  transition: all var(--duration-fast) var(--ease-smooth);
+  box-shadow: var(--shadow-sm);
 }
 
-.hover-glow:hover {
-  border-color: #fff;
+button:hover, .button:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-md);
+  background: var(--accent-primary);
+  color: var(--bg-primary);
+}
+
+button:active, .button:active {
+  transform: translate(0, 0);
+  box-shadow: none;
 }

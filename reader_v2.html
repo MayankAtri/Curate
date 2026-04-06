@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700;900&amp;family=Space+Grotesk:wght@300;400;500;700&amp;family=Work+Sans:wght@300;400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "outline": "#936e66",
+                        "inverse-primary": "#ffb4a4",
+                        "on-tertiary-fixed": "#3e0500",
+                        "surface-container": "#f1ede8",
+                        "on-secondary-fixed": "#1b1b1b",
+                        "surface-dim": "#ddd9d5",
+                        "secondary-container": "#e2e2e2",
+                        "surface-bright": "#fdf9f4",
+                        "tertiary-container": "#e02c00",
+                        "surface-container-lowest": "#ffffff",
+                        "on-background": "#1c1c19",
+                        "tertiary-fixed": "#ffdad3",
+                        "inverse-on-surface": "#f4f0eb",
+                        "primary": "#b32100",
+                        "on-secondary-fixed-variant": "#474747",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#e02c00",
+                        "outline-variant": "#e9bdb3",
+                        "on-primary-fixed": "#3e0500",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "surface": "#fdf9f4",
+                        "surface-container-highest": "#e6e2dd",
+                        "on-primary-fixed-variant": "#8c1800",
+                        "surface-container-high": "#ebe8e3",
+                        "on-tertiary-fixed-variant": "#8c1800",
+                        "on-surface-variant": "#5e3f38",
+                        "on-secondary": "#ffffff",
+                        "surface-container-low": "#f7f3ee",
+                        "secondary-fixed-dim": "#c6c6c6",
+                        "secondary-fixed": "#e2e2e2",
+                        "on-primary-container": "#fffbff",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb4a4",
+                        "surface-tint": "#b72200",
+                        "secondary": "#5e5e5e",
+                        "on-surface": "#1c1c19",
+                        "background": "#fdf9f4",
+                        "primary-fixed": "#ffdad3",
+                        "surface-variant": "#e6e2dd",
+                        "tertiary": "#b32100",
+                        "on-tertiary-container": "#fffbff",
+                        "inverse-surface": "#31302d",
+                        "primary-fixed-dim": "#ffb4a4",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#646464",
+                        "on-error-container": "#93000a"
+                    },
+                    fontFamily: {
+                        "headline": ["Noto Serif"],
+                        "body": ["Work Sans"],
+                        "label": ["Space Grotesk"]
+                    },
+                    borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #fdf9f4; /* Newsprint base */
+            color: #1c1c19;
+            font-family: 'Work Sans', sans-serif;
+        }
+        .industrial-border { border: 4px solid #1c1c19; }
+        .industrial-border-b { border-bottom: 4px solid #1c1c19; }
+        .industrial-border-r { border-right: 4px solid #1c1c19; }
+        .industrial-border-l { border-left: 4px solid #1c1c19; }
+        .industrial-border-t { border-top: 4px solid #1c1c19; }
+        
+        .hard-shadow {
+            box-shadow: 4px 4px 0px 0px #1c1c19;
+        }
+        .btn-interaction:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 4px 4px 0px 0px #1c1c19;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface">
+<!-- Top Navigation Shell -->
+<header class="flex flex-col items-center w-full pt-8 pb-4 px-10 border-b-4 border-on-background bg-surface">
+<div class="w-full max-w-[1440px] flex justify-between items-center mb-8">
+<div class="text-7xl font-black tracking-tighter font-headline text-on-background">CURATE</div>
+<div class="flex items-center gap-6">
+<span class="font-label uppercase tracking-widest text-[11px] font-bold">EDITION: 042 // DEC 2024</span>
+<span class="material-symbols-outlined text-3xl" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+<nav class="w-full max-w-[1440px] flex justify-center gap-12">
+<a class="font-label uppercase tracking-widest text-[11px] border-b-4 border-primary pb-2 text-on-background" href="#">LATEST</a>
+<a class="font-label uppercase tracking-widest text-[11px] text-on-background opacity-70 hover:opacity-100 transition-colors" href="#">MARKETS</a>
+<a class="font-label uppercase tracking-widest text-[11px] text-on-background opacity-70 hover:opacity-100 transition-colors" href="#">CULTURE</a>
+<a class="font-label uppercase tracking-widest text-[11px] text-on-background opacity-70 hover:opacity-100 transition-colors" href="#">OPINION</a>
+</nav>
+</header>
+<!-- Massive Desktop Header -->
+<section class="w-full flex justify-center bg-surface py-16 px-10 industrial-border-b">
+<div class="w-full max-w-[1440px]">
+<div class="font-label uppercase tracking-[0.2em] text-primary font-bold mb-4">LONGFORM INVESTIGATION / TECHNOLOGY</div>
+<h1 class="font-headline text-[7rem] leading-[0.9] font-black tracking-tighter text-on-background">The Algorithmic Architecture of Digital Sovereignty</h1>
+<div class="flex justify-between items-end mt-12">
+<div class="max-w-2xl font-body text-xl font-light leading-relaxed">
+                    Exploring the intersection of decentralized networks and the future of institutional trust in a post-truth era. Written by Julian Vane-Tempest.
+                </div>
+<div class="text-right">
+<p class="font-label text-xs uppercase tracking-widest">Published</p>
+<p class="font-label text-lg font-bold">14.12.2024</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Content Grid -->
+<main class="w-full flex justify-center px-10">
+<div class="w-full max-w-[1440px] grid grid-cols-10 min-h-screen">
+<!-- Left Column: Intelligence Metadata (20%) -->
+<aside class="col-span-2 industrial-border-r pr-8 py-12 flex flex-col gap-12">
+<div>
+<h3 class="font-label text-[11px] font-bold uppercase tracking-widest mb-6 text-primary">Intelligence Metadata</h3>
+<div class="flex flex-col gap-8">
+<div class="industrial-border p-4 bg-surface-container">
+<p class="font-label text-[10px] uppercase opacity-60">Read Time</p>
+<p class="font-headline text-3xl font-bold">12 MIN</p>
+</div>
+<div class="industrial-border p-4 bg-surface-container">
+<p class="font-label text-[10px] uppercase opacity-60">AI Confidence</p>
+<div class="flex items-end gap-2">
+<p class="font-headline text-3xl font-bold">98%</p>
+<span class="font-label text-[10px] pb-1">VERIFIED</span>
+</div>
+</div>
+<div class="industrial-border p-4 bg-surface-container">
+<p class="font-label text-[10px] uppercase opacity-60">Source Score</p>
+<p class="font-headline text-3xl font-bold">A+</p>
+</div>
+</div>
+</div>
+<div>
+<h3 class="font-label text-[11px] font-bold uppercase tracking-widest mb-6">Related Signals</h3>
+<div class="flex flex-col gap-4">
+<a class="p-3 bg-surface-container hover:bg-primary hover:text-white transition-colors group" href="#">
+<span class="font-label text-[10px] uppercase block mb-1">Economy</span>
+<span class="font-headline font-bold text-sm leading-tight block">The collapse of fiat in digital-first territories.</span>
+</a>
+<a class="p-3 bg-surface-container hover:bg-primary hover:text-white transition-colors group" href="#">
+<span class="font-label text-[10px] uppercase block mb-1">Architecture</span>
+<span class="font-headline font-bold text-sm leading-tight block">Brutalist coding: Why UI is getting harder.</span>
+</a>
+<a class="p-3 bg-surface-container hover:bg-primary hover:text-white transition-colors group" href="#">
+<span class="font-label text-[10px] uppercase block mb-1">Politics</span>
+<span class="font-headline font-bold text-sm leading-tight block">Encryption as the new Bill of Rights.</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Middle Column: Main Body (60%) -->
+<article class="col-span-6 px-16 py-12">
+<!-- Hero Image -->
+<div class="w-full mb-16 industrial-border overflow-hidden">
+<img class="w-full h-[600px] object-cover" data-alt="vibrant abstract close-up of a glowing fiber optic network with deep blues and neon oranges in sharp focus against dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvKsRm-kIPRb5CsiwRDw6Bk79JuUHB_aTYoux-y-I0R8EKtiXOjrxTD2my_f_wZ5KJpDpkv750uvmm1cGzgr8Un8LKHbgkfelaPLm4Ry4VMJevn3dq1L40BmPOFA6paxFHKUwupcLcQUn1XqOZ7aG1PmTqPWXvr0FdyGAaFvlUoazHKy_LFsiXcbkQ3iOZmheIE3mi26V1Qr9_O4jMyWrhrc16jxG8hcHZ-EepO37FNYkRIC-SMRjAmib9oFRxOJMLMxCSGRa6"/>
+</div>
+<div class="max-w-2xl mx-auto">
+<p class="font-headline text-3xl leading-relaxed mb-12 first-letter:text-8xl first-letter:font-black first-letter:mr-4 first-letter:float-left first-letter:leading-none text-on-background">
+                        In the landscape of modern digital infrastructure, the concept of sovereignty has shifted from physical borders to cryptographic protocols. As we navigate this transformation, the very fabric of our institutional trust is being re-engineered.
+                    </p>
+<div class="space-y-8 font-headline text-xl leading-loose text-on-background opacity-90">
+<p>
+                            For decades, the central authority was the arbiter of truth. Banks, governments, and news organizations held the ledger of our collective existence. However, the rise of decentralized autonomous systems has introduced a new paradigm: "Don't trust, verify." This transition isn't merely technical; it is a profound philosophical shift in how humanity organizes itself across the global digital commons.
+                        </p>
+<blockquote class="my-16 industrial-border-l pl-8 py-4 bg-surface-container">
+<p class="text-4xl font-black tracking-tight italic leading-tight">
+                                "The code is not just the law; it is the geography, the police, and the judiciary of the new world."
+                            </p>
+<cite class="font-label uppercase tracking-widest text-xs mt-4 block">— DR. ELARA VANCE, CRYPTO-ANTHROPOLOGIST</cite>
+</blockquote>
+<p>
+                            Consider the implications of a self-sovereign identity. No longer tethered to a state-issued document, an individual carries their credentials in a mathematical proof that cannot be forged or revoked. This decoupling of the individual from the state is the ultimate expression of the "Digital Broadsheet" era—where data is the only currency that retains its value under pressure.
+                        </p>
+<h2 class="text-5xl font-black tracking-tighter mt-16 mb-8 uppercase">I. The Infrastructure of Absolutism</h2>
+<p>
+                            As we look toward the next decade, the tension between legacy systems and emerging protocols will only heighten. The "Industrial Border" of the past was made of brick and mortar; the new border is made of elliptical curve cryptography. The aesthetic of this change is brutalist—unapologetic, transparent, and heavy with the weight of raw information.
+                        </p>
+<!-- Secondary Contextual Image -->
+<div class="my-16 industrial-border">
+<img class="w-full h-[400px] object-cover grayscale" data-alt="dramatic low angle shot of a modern brutalist skyscraper with sharp geometric shadows and high contrast sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgVjQOPjWuo2B0Pzv_gm3-Gwl2yH9RmBUHsPmd-Oe1O1FyUOL3vS60_ArIh5vWh7BHRVoLT-vsYrsMYgHHL7La_P_-4SAxbkzYiC4iWPQb1BsK20oSyhzrQNYqLiWTiZW0LNACVr1yC6g4p_eBibEIUxolClOA75eKZeQCvOoSbVP1BAOogULBQ9nrMM2MKfhbe8kU6LymzzrGqNc_bznwhDKuEWXUUjRRY87yvWj38cJKeK_YaaYRNbl3wet20qBAlqYxvRp1"/>
+<div class="p-4 bg-on-background text-surface font-label text-[10px] uppercase tracking-widest">
+                                FIG 1.2: BRUTALIST ARCHITECTURE AS A METAPHOR FOR SYSTEMIC TRANSPARENCY.
+                            </div>
+</div>
+<p>
+                            Ultimately, the 'Curate' mission is to present these complexities without dilution. We are not just readers; we are nodes in a larger processing network, attempting to synthesize the noise of the present into the signal of the future.
+                        </p>
+</div>
+</div>
+</article>
+<!-- Right Column: Action Ledger (20%) -->
+<aside class="col-span-2 industrial-border-l pl-8 py-12 flex flex-col gap-12 sticky top-0 h-screen overflow-y-auto">
+<div>
+<h3 class="font-label text-[11px] font-bold uppercase tracking-widest mb-6">Action Ledger</h3>
+<div class="flex flex-col gap-4">
+<button class="w-full p-4 industrial-border bg-primary text-white font-label font-bold uppercase tracking-widest flex items-center justify-between btn-interaction transition-all">
+<span>Like</span>
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</button>
+<button class="w-full p-4 industrial-border bg-surface text-on-background font-label font-bold uppercase tracking-widest flex items-center justify-between btn-interaction transition-all">
+<span>Bookmark</span>
+<span class="material-symbols-outlined" data-icon="bookmark">bookmark</span>
+</button>
+<button class="w-full p-4 industrial-border bg-surface text-on-background font-label font-bold uppercase tracking-widest flex items-center justify-between btn-interaction transition-all">
+<span>Share</span>
+<span class="material-symbols-outlined" data-icon="share">share</span>
+</button>
+<a class="w-full p-4 industrial-border bg-on-background text-surface font-label font-bold uppercase tracking-widest flex items-center justify-between hover:bg-primary transition-all" href="#">
+<span>Read Original</span>
+<span class="material-symbols-outlined" data-icon="open_in_new">open_in_new</span>
+</a>
+</div>
+</div>
+<div class="mt-auto">
+<div class="industrial-border p-6 bg-surface-container-highest">
+<h4 class="font-label text-[11px] font-black uppercase tracking-widest mb-2">Subscriber Exclusive</h4>
+<p class="font-body text-sm leading-snug mb-4">You are reading a curated brief. Unlock the full technical schematic and data sets.</p>
+<button class="w-full py-2 bg-primary text-white font-label text-[10px] font-bold uppercase tracking-widest">Upgrade Access</button>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-24 px-10 flex flex-col items-center gap-12 bg-on-background text-surface industrial-border-t">
+<div class="w-full max-w-[1440px] flex justify-between items-start">
+<div class="flex flex-col gap-4">
+<div class="font-headline text-4xl font-black tracking-tighter text-white">CURATE</div>
+<p class="font-label text-[11px] uppercase tracking-widest max-w-xs text-gray-400">
+                    A modern broadsheet for the hyper-intellectual landscape. Printed in pixels, built for sovereignty.
+                </p>
+</div>
+<div class="grid grid-cols-2 gap-x-24 gap-y-4">
+<a class="font-label text-[11px] uppercase tracking-widest hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-label text-[11px] uppercase tracking-widest hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-label text-[11px] uppercase tracking-widest hover:text-primary transition-colors" href="#">Masthead</a>
+<a class="font-label text-[11px] uppercase tracking-widest hover:text-primary transition-colors" href="#">Subscriptions</a>
+</div>
+</div>
+<div class="w-full max-w-[1440px] pt-12 border-t border-gray-800 flex justify-between items-center">
+<p class="font-label text-[10px] uppercase tracking-widest text-gray-500">© 2024 CURATE DIGITAL BROADSHEET. ALL RIGHTS RESERVED. PRINTED IN PIXELS.</p>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-gray-500" data-icon="rss_feed">rss_feed</span>
+<span class="material-symbols-outlined text-gray-500" data-icon="terminal">terminal</span>
+</div>
+</div>
+</footer>
+</body></html>

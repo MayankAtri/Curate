@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CURATE | THE SIGNAL, DISTILLED.</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Public+Sans:wght@300;400;700;900&amp;family=Space+Grotesk:wght@300;500;700&amp;family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-fixed": "#ffdad3",
+              "on-error": "#ffffff",
+              "inverse-surface": "#31302d",
+              "surface-tint": "#b72200",
+              "on-primary-fixed-variant": "#8c1800",
+              "error": "#ba1a1a",
+              "tertiary": "#005bb2",
+              "on-tertiary-fixed": "#001b3d",
+              "on-error-container": "#93000a",
+              "on-primary-fixed": "#3e0500",
+              "error-container": "#ffdad6",
+              "surface": "#fdf9f4",
+              "on-secondary": "#ffffff",
+              "on-primary-container": "#fffbff",
+              "on-secondary-fixed": "#1b1b1b",
+              "surface-container-high": "#ebe8e3",
+              "on-secondary-container": "#646464",
+              "surface-container": "#f1ede8",
+              "on-surface": "#1c1c19",
+              "outline": "#936e66",
+              "on-surface-variant": "#5e3f38",
+              "on-primary": "#ffffff",
+              "tertiary-fixed-dim": "#a9c7ff",
+              "background": "#fdf9f4",
+              "on-tertiary-fixed-variant": "#00468b",
+              "on-tertiary": "#ffffff",
+              "surface-variant": "#e6e2dd",
+              "inverse-on-surface": "#f4f0eb",
+              "primary": "#b32100",
+              "tertiary-fixed": "#d6e3ff",
+              "outline-variant": "#e9bdb3",
+              "primary-container": "#e02c00",
+              "inverse-primary": "#ffb4a4",
+              "surface-container-low": "#f7f3ee",
+              "secondary-fixed-dim": "#c6c6c6",
+              "surface-container-lowest": "#ffffff",
+              "on-tertiary-container": "#fefcff",
+              "surface-bright": "#fdf9f4",
+              "secondary-container": "#e2e2e2",
+              "on-background": "#1c1c19",
+              "tertiary-container": "#0073de",
+              "primary-fixed-dim": "#ffb4a4",
+              "surface-container-highest": "#e6e2dd",
+              "secondary-fixed": "#e2e2e2",
+              "secondary": "#5e5e5e",
+              "on-secondary-fixed-variant": "#474747",
+              "surface-dim": "#ddd9d5"
+            },
+            fontFamily: {
+              "headline": ["Fraunces"],
+              "editorial": ["Newsreader"],
+              "body": ["Public Sans"],
+              "label": ["Space Grotesk"]
+            },
+            borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hard-shadow {
+            box-shadow: 4px 4px 0px 0px #1c1c19;
+        }
+        .hard-shadow-lg {
+            box-shadow: 8px 8px 0px 0px #1c1c19;
+        }
+        .btn-hover:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 8px 8px 0px 0px #1c1c19;
+        }
+        body {
+            background-color: #fdf9f4;
+            color: #1c1c19;
+        }
+    </style>
+</head>
+<body class="antialiased overflow-x-hidden">
+<!-- Top Navigation Anchor -->
+<nav class="flex justify-between items-center w-full px-6 py-4 bg-[#fdf9f4] border-b-4 border-black sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<span class="text-4xl font-black font-serif italic text-black tracking-tighter">CURATE</span>
+<div class="hidden lg:flex gap-6 items-center">
+<a class="text-black font-bold hover:text-[#FF3300] font-['Space_Grotesk'] uppercase text-sm" href="#">Politics</a>
+<a class="text-black font-bold hover:text-[#FF3300] font-['Space_Grotesk'] uppercase text-sm" href="#">Culture</a>
+<a class="text-black font-bold hover:text-[#FF3300] font-['Space_Grotesk'] uppercase text-sm" href="#">Economy</a>
+<a class="text-black font-bold hover:text-[#FF3300] font-['Space_Grotesk'] uppercase text-sm" href="#">Tech</a>
+<a class="text-black font-bold hover:text-[#FF3300] font-['Space_Grotesk'] uppercase text-sm" href="#">The Long Read</a>
+<a class="text-black font-bold hover:text-[#FF3300] font-['Space_Grotesk'] uppercase text-sm" href="#">Opinion</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-2xl">search</button>
+<button class="bg-primary text-white border-4 border-black px-6 py-2 font-['Space_Grotesk'] uppercase font-bold text-sm btn-hover transition-all duration-100">Subscribe</button>
+</div>
+</nav>
+<main class="max-w-[1440px] mx-auto border-x-4 border-black bg-surface min-h-screen">
+<!-- Section 1: Hero -->
+<section class="border-b-4 border-black px-6 py-24 flex flex-col items-center text-center">
+<div class="w-full mb-12">
+<span class="font-label uppercase font-bold tracking-widest text-[#FF3300] block mb-4">Edition 001 // The Algorithmic Epoch</span>
+<h1 class="font-headline text-[10vw] leading-[0.85] font-black italic tracking-tighter uppercase mb-12 border-y-4 border-black py-8 w-full">
+                    THE SIGNAL, DISTILLED.
+                </h1>
+</div>
+<div class="grid grid-cols-12 w-full text-left gap-8">
+<div class="col-span-12 lg:col-span-7">
+<p class="font-editorial text-4xl leading-tight font-medium text-on-surface">
+                        Our proprietary selection logic bypasses the noise of the attention economy. We curate the essential, ignoring the ephemeral. High-density intelligence for the decisive reader.
+                    </p>
+</div>
+<div class="col-span-12 lg:col-span-5 flex flex-col justify-end items-end">
+<div class="bg-black text-white p-6 hard-shadow-lg w-full max-w-sm">
+<p class="font-label uppercase text-xs mb-4 text-[#FF3300]">Current Intelligence Stream</p>
+<p class="font-body text-sm font-light leading-relaxed">
+                            Every morning at 05:00 GMT, our neural network synthesizes 42,000 global dispatches into a singular broadsheet of vital importance.
+                        </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 2: Manifesto (The Logic of Selection) -->
+<section class="grid grid-cols-1 lg:grid-cols-3 border-b-4 border-black">
+<div class="p-12 lg:border-r-4 border-black flex flex-col">
+<span class="font-label uppercase font-bold text-[#FF3300] mb-6 text-sm">01 / Logic Architecture</span>
+<h2 class="font-headline text-5xl font-black uppercase mb-8 italic">THE LOGIC OF SELECTION.</h2>
+<p class="font-editorial text-xl leading-relaxed mb-6">
+                    Unlike human editors, our system doesn't tire. It doesn't have biases based on yesterday's dinner. It looks at the semantic weight of information across 12 languages and 400 jurisdictions simultaneously.
+                </p>
+<p class="font-editorial text-xl leading-relaxed">
+                    Selection is not about what is new; it is about what is consequential. We track the threads of power, capital, and cultural shift.
+                </p>
+</div>
+<div class="p-12 lg:border-r-4 border-black flex flex-col bg-surface-container-low">
+<span class="font-label uppercase font-bold text-[#FF3300] mb-6 text-sm">02 / Signal Strength</span>
+<div class="mb-8 border-4 border-black p-1">
+<img class="w-full grayscale contrast-150" data-alt="Close-up of high-tech glowing circuit board with blue and red light illumination, intricate paths and nodes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC429ymWn_Ua7M0GWnEGtjcL84W8ctalPXKmmyPm2dww8_0s7VzLrhUxPTbKdCvNYixlmPodNWqgMKqaIGJ-sl44YApCYuDN14PHlY25ZQfrIzk8xYkCru4KfTjsb4sB4gye7hUliQEQJRr0Ij89QkWjBdyxlInQlVvHuV3TjihlzM1B7KomQ28IJSrVa3snpW0Cp0CNmKUfI9pQIGbPzGWMsTCoYPjOCzJSEdWP_1QDCevo-D3kRWR8tVpbRCIFHR6pWMnDDys"/>
+</div>
+<p class="font-editorial text-xl leading-relaxed">
+                    The Curate Engine identifies clusters of information before they reach the mainstream press. We prioritize structural changes over reactionary headlines.
+                </p>
+</div>
+<div class="p-12 flex flex-col bg-primary text-white">
+<span class="font-label uppercase font-bold text-white mb-6 text-sm">03 / Human Synthesis</span>
+<p class="font-editorial text-xl leading-relaxed mb-6 italic font-bold">
+                    "Intelligence is not the gathering of facts, but the recognition of patterns in a chaotic field."
+                </p>
+<div class="mt-auto pt-12">
+<p class="font-body text-sm font-bold uppercase tracking-widest border-t-2 border-white pt-4">Final Validation Layer: Human Editorial Board</p>
+</div>
+</div>
+</section>
+<!-- Section 3: Social Proof (System Scale Ticker) -->
+<section class="bg-black text-white py-6 overflow-hidden border-b-4 border-black relative">
+<div class="flex whitespace-nowrap gap-12 animate-marquee">
+<!-- Ticker Content (Repeated for effect) -->
+<div class="flex items-center gap-12 text-6xl font-headline font-black uppercase italic tracking-tighter">
+<span>1,420,931 Dispatches Processed</span>
+<span class="text-[#FF3300] material-symbols-outlined text-5xl">emergency</span>
+<span>99.8% Signal Reliability</span>
+<span class="text-[#FF3300] material-symbols-outlined text-5xl">monitoring</span>
+<span>Global Coverage Active</span>
+<span class="text-[#FF3300] material-symbols-outlined text-5xl">language</span>
+<span>1,420,931 Dispatches Processed</span>
+</div>
+</div>
+</section>
+<!-- Section 4: Visual Tease (Bento Grid) -->
+<section class="p-6">
+<div class="grid grid-cols-1 md:grid-cols-5 md:grid-rows-2 gap-6 min-h-[800px]">
+<!-- Large Feature -->
+<div class="md:col-span-3 md:row-span-2 border-4 border-black relative group overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" data-alt="Low angle shot of a brutalist concrete building with sharp shadows and clear blue sky background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRSTk-XOkT1uQUA4sh3ynKDczbgTVEIt1NR-LmPt1SCUDGXN1GPuz4lcAF2te5nrnY9c92pyAQMrwRr_2giuxaTEkbIDTwrCezBgW0E0Pc_fLp5O_NBsIMk5tNkBlMmg11WiCZVp95xNl7dcKMfconAaN3XafawKvxEweRdmm9FhYHqz-gBMocu54nukJXZ3x1SmNxU21irqOU5N8ErkmqCbpX9X3fvibhcuuYLnJtZkDdp5Tr8_cbL3agvsVatffruY7OyyM3"/>
+<div class="absolute bottom-0 right-0 bg-primary text-white px-6 py-3 border-l-4 border-t-4 border-black font-label font-bold uppercase">
+                        ARCHITECTURAL SHIFTS // SEOUL
+                    </div>
+</div>
+<!-- Top Right -->
+<div class="md:col-span-2 border-4 border-black relative group overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" data-alt="Abstract vibrant swirling liquid colors of red, orange and yellow mixing together in a chaotic pattern" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUVjOXtOPq5nhidof7dAaU4j9FxVreoceLomW_Xl8C3rTOh0ClnKVPAbCEIvH2VfY40BlfokwQExbdKzbJYNtl_HB1KvtHgNA43lReY9TGU0x_p9Vcnxz3ijPm-1VmK4xlq0tBGZ2NAYONecZQRkUx98_DcF3pzXcd-7TbjR7Pwvulobr395J0cSFFblCg_cghB2NU40b-weRGzKnMhteJ_SajI41DgqQ1CIPcgctDGjj2Z2ZOPqbDmUumSDU8A_NTQJ8HEGJR"/>
+<div class="absolute bottom-0 right-0 bg-white text-black px-4 py-2 border-l-4 border-t-4 border-black font-label text-xs font-bold uppercase">
+                        CULTURAL FLOW // V02
+                    </div>
+</div>
+<!-- Bottom Middle -->
+<div class="md:col-span-1 border-4 border-black relative group overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" data-alt="Close-up of intricate electronic hardware and processors with dramatic high contrast lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQfKa7dUdnRLOv6zDPPMis5VtgzOPpZX491zGjWY1s-W6MxdpfSIA42BPwUIfCxpiejSHpBBl17P-Ket0zcDVRH0JqxWDlUuVYIaW_7wwLDzUpHR5CUCuC0HQfPYHm_y2bHPvHu6zT4_T-lSfhsz7A5cDAHaX6NAJ5Q8eo3FNRif1GswimpQ1J8m2CLx80_S8nubBPG30daOdbLr8kTwwptIYJaUGh2nrr7sGnT4BWqnfKTdFHi_6gxV07kU3liIuPF5xbzKU6"/>
+<div class="absolute bottom-0 right-0 bg-black text-white px-3 py-1 border-l-4 border-t-4 border-black font-label text-[10px] font-bold uppercase">
+                        TECH.01
+                    </div>
+</div>
+<!-- Bottom Right -->
+<div class="md:col-span-1 border-4 border-black relative group overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" data-alt="Dense sunlit forest with tall trees and vibrant green foliage, light beams filtering through the canopy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxjN_3XNCAgkW5zuWHWeIYq-DIxoKfCM-oG6GOW_QrkdD-HjyPkHcJXgnSeDke0polBckDOOMKPj6pEEISSi8RUT0B7IuTaWRJs3xfLxOVPWAj2PvIyIFdq03YviJiEd4yc6hpz7cyjdz9wtm8shAHI6CeIlInQfzd7knzxQ6IO9N-JLhIVtI-M0EWCUJYAWuunQSuF_VeyyApoqrGavtJ0Vbk1HYuvAfgIDkd3x4m5JmAILOiQL10gcqsvwdf1N8nao54eJ6v"/>
+<div class="absolute bottom-0 right-0 bg-[#FF3300] text-white px-3 py-1 border-l-4 border-t-4 border-black font-label text-[10px] font-bold uppercase">
+                        ECOLOGY
+                    </div>
+</div>
+</div>
+</section>
+<!-- Final Call to Action -->
+<section class="border-y-4 border-black bg-surface-container-high px-6 py-32 flex flex-col items-center">
+<h2 class="font-headline text-7xl font-black uppercase mb-12 text-center tracking-tighter italic">
+                Ready for the <span class="text-primary">Untangled</span> Truth?
+            </h2>
+<div class="flex gap-4">
+<button class="bg-black text-white border-4 border-black px-12 py-4 font-label uppercase font-bold text-xl btn-hover transition-all duration-100">JOIN THE NETWORK</button>
+<button class="bg-surface border-4 border-black px-12 py-4 font-label uppercase font-bold text-xl btn-hover transition-all duration-100">VIEW SAMPLE</button>
+</div>
+</section>
+</main>
+<!-- Footer Anchor -->
+<footer class="max-w-[1440px] mx-auto border-x-4 border-black">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 w-full px-6 py-12 border-t-4 border-black">
+<div class="col-span-1">
+<span class="text-3xl font-black font-serif italic text-black tracking-tighter">CURATE</span>
+<p class="mt-4 font-body text-xs font-bold opacity-70">A NEW DIMENSION OF EDITORIAL INTELLIGENCE.</p>
+</div>
+<div class="flex flex-col gap-2">
+<span class="font-label uppercase font-bold text-xs text-[#FF3300] mb-4">Navigation</span>
+<a class="font-label uppercase text-xs font-bold text-black opacity-80 hover:bg-black hover:text-white p-1 w-fit transition-none" href="#">Newsletter Signup</a>
+<a class="font-label uppercase text-xs font-bold text-black opacity-80 hover:bg-black hover:text-white p-1 w-fit transition-none" href="#">Masthead</a>
+<a class="font-label uppercase text-xs font-bold text-black opacity-80 hover:bg-black hover:text-white p-1 w-fit transition-none" href="#">Archives</a>
+</div>
+<div class="flex flex-col gap-2">
+<span class="font-label uppercase font-bold text-xs text-[#FF3300] mb-4">Governance</span>
+<a class="font-label uppercase text-xs font-bold text-black opacity-80 hover:bg-black hover:text-white p-1 w-fit transition-none" href="#">Ethical Code</a>
+<a class="font-label uppercase text-xs font-bold text-black opacity-80 hover:bg-black hover:text-white p-1 w-fit transition-none" href="#">Privacy Policy</a>
+<a class="font-label uppercase text-xs font-bold text-black opacity-80 hover:bg-black hover:text-white p-1 w-fit transition-none" href="#">Contact</a>
+</div>
+<div class="flex flex-col gap-4">
+<span class="font-label uppercase font-bold text-xs text-[#FF3300]">The Dispatches</span>
+<div class="border-4 border-black p-4 bg-surface">
+<p class="font-editorial text-sm italic font-bold">"The only curation engine worth paying for in an era of noise."</p>
+<p class="font-label text-[10px] mt-2">— Financial Review</p>
+</div>
+</div>
+</div>
+<div class="px-6 py-4 border-t-4 border-black flex justify-between items-center bg-black text-white">
+<span class="font-['Space_Grotesk'] uppercase text-xs font-bold tracking-widest">© 2024 CURATE EDITORIAL GROUP. ALL RIGHTS RESERVED.</span>
+<div class="flex gap-6">
+<span class="font-label text-xs uppercase font-bold cursor-pointer hover:text-primary">X</span>
+<span class="font-label text-xs uppercase font-bold cursor-pointer hover:text-primary">IG</span>
+<span class="font-label text-xs uppercase font-bold cursor-pointer hover:text-primary">LI</span>
+</div>
+</div>
+</footer>
+<style>
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            animation: marquee 20s linear infinite;
+        }
+    </style>
+</body></html>

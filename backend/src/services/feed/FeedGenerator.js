@@ -3,7 +3,12 @@ import UserPreference from '../../models/UserPreference.js';
 import UserFeedCache from '../../models/UserFeedCache.js';
 import RankingEngine from './RankingEngine.js';
 import GoogleNewsFetcher from '../discovery/GoogleNewsFetcher.js';
-import { PAGINATION, SUMMARY_STATUS } from '../../config/constants.js';
+import {
+  PAGINATION,
+  SUMMARY_STATUS,
+  PREFERENCE_TYPE,
+  PREFERENCE_SOURCE,
+} from '../../config/constants.js';
 import { generateCursor, parseCursor } from '../../utils/helpers.js';
 import { logger } from '../../utils/logger.js';
 
@@ -11,11 +16,37 @@ function escapeRegex(input = '') {
   return input.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
+function normalizeHeadline(title = '') {
+  return title
+    .toLowerCase()
+    .replace(/['’"]/g, '')
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .replace(/\b(live|update|updates|analysis|report|reports|review|reviews|breaking|exclusive)\b/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 function buildTopicAliases(topic) {
   const normalized = (topic || '').toLowerCase().trim();
   if (!normalized) return [];
 
   const aliases = new Set([normalized]);
+  for (const mappedQuery of TOPIC_DISCOVERY_QUERY_MAP[normalized] || []) {
+    aliases.add(mappedQuery);
+  }
+
+  if (normalized === 'ai') {
+    aliases.add('artificial intelligence');
+    aliases.add('machine learning');
+    aliases.add('llm');
+    aliases.add('llms');
+  }
+  if (normalized === 'gaming') {
+    aliases.delete('gaming');
+    aliases.add('video games');
+    aliases.add('pc gaming');
+    aliases.add('console gaming');
+  }
 
   // Common aliases / shorthand
   if (normalized.includes('formula one')) {
@@ -53,8 +84,57 @@ function buildTopicRegexes(topic) {
   const aliases = buildTopicAliases(topic);
   if (aliases.length === 0) return [];
 
-  return aliases.map((value) => new RegExp(escapeRegex(value), 'i'));
+  return aliases.map((value) => {
+    // Prevent broad false-positive matches for short tokens like "ai".
+    if (value.length <= 3) {
+      return new RegExp(`\\b${escapeRegex(value)}\\b`, 'i');
+    }
+    return new RegExp(escapeRegex(value), 'i');
+  });
 }
+
+const TOPIC_DISCOVERY_QUERY_MAP = {
+  ai: ['artificial intelligence', 'ai tools'],
+  anime: ['anime'],
+  business: ['business'],
+  crypto: ['crypto'],
+  entertainment: ['entertainment'],
+  environment: ['environment', 'climate'],
+  esports: ['esports', 'competitive gaming'],
+  finance: ['finance', 'markets'],
+  food: ['food', 'recipes', 'restaurants'],
+  gadgets: ['gadgets', 'consumer tech'],
+  gaming: ['video games', 'pc gaming', 'console gaming'],
+  health: ['health'],
+  movies: ['movies', 'film'],
+  music: ['music'],
+  news: ['world news'],
+  politics: ['politics'],
+  programming: ['programming', 'software development'],
+  science: ['science'],
+  space: ['space'],
+  sports: ['sports'],
+  startups: ['startups', 'venture capital'],
+  technology: ['technology', 'tech'],
+  travel: ['travel'],
+};
+
+const TOPIC_STRICT_SIGNALS = {
+  ai: ['artificial intelligence', 'machine learning', 'llm', 'llms', 'chatgpt', 'gemini'],
+  business: ['business', 'company', 'companies', 'earnings', 'revenue', 'market', 'markets'],
+  crypto: ['crypto', 'bitcoin', 'ethereum', 'blockchain', 'token'],
+  food: ['food', 'recipe', 'recipes', 'restaurant', 'restaurants', 'chef', 'cooking', 'kitchen', 'nutrition'],
+  gaming: ['video game', 'video games', 'gameplay', 'xbox', 'playstation', 'nintendo', 'steam', 'pc gaming', 'console gaming', 'gamer', 'gamers'],
+  health: ['health', 'medical', 'medicine', 'hospital', 'doctor', 'disease', 'wellness'],
+  movies: ['movie', 'movies', 'film', 'cinema', 'box office', 'director'],
+  music: ['music', 'album', 'song', 'songs', 'artist', 'concert'],
+  politics: ['politics', 'policy', 'election', 'senate', 'congress', 'government', 'white house'],
+  science: ['research', 'study', 'scientist', 'scientists', 'nasa', 'physics', 'chemistry', 'biology', 'astronomy', 'space', 'laboratory', 'experiment'],
+  space: ['space', 'nasa', 'spacex', 'rocket', 'orbit', 'astronomy', 'moon', 'mars'],
+  sports: ['sports', 'game', 'match', 'season', 'league', 'tournament', 'player', 'players'],
+  technology: ['technology', 'tech', 'software', 'hardware', 'device', 'devices', 'startup', 'startups'],
+  travel: ['travel', 'trip', 'trips', 'tourism', 'flight', 'flights', 'hotel', 'hotels', 'destination'],
+};
 
 /**
  * FeedGenerator - Generates personalized article feeds for users
@@ -66,6 +146,7 @@ class FeedGenerator {
     this.googleNewsFetcher = new GoogleNewsFetcher(options.googleNewsOptions);
     this.topicDiscoveryCooldownMs = options.topicDiscoveryCooldownMs || 10 * 60 * 1000;
     this.topicDiscoveryAttempts = new Map();
+    this.topicDiscoveryInFlight = new Map();
     this.defaultOptions = {
       maxArticleAgeDays: 7,
       feedSize: PAGINATION.FEED_CACHE_SIZE,
@@ -92,8 +173,12 @@ class FeedGenerator {
 
     this.topicDiscoveryAttempts.set(topicKey, Date.now());
 
-    let queries = buildTopicAliases(topicKey)
+    const mappedQueries = TOPIC_DISCOVERY_QUERY_MAP[topicKey] || [];
+    let queries = [
+      ...(mappedQueries.length > 0 ? mappedQueries : buildTopicAliases(topicKey)),
+    ]
       .filter((query) => query.length >= 2)
+      .filter((query, index, allQueries) => allQueries.indexOf(query) === index)
       .slice(0, 4);
     if (fast) {
       queries = queries.slice(0, 1);
@@ -126,6 +211,29 @@ class FeedGenerator {
     }
   }
 
+  triggerTopicDiscovery(topic, options = {}) {
+    const topicKey = (topic || '').toLowerCase().trim();
+    if (!topicKey) return;
+
+    const existingTask = this.topicDiscoveryInFlight.get(topicKey);
+    if (existingTask) {
+      logger.debug(`Topic discovery already running for "${topicKey}"`);
+      return;
+    }
+
+    const task = this.discoverTopicOnDemand(topicKey, options)
+      .catch((error) => {
+        logger.warn(`Background topic discovery failed for "${topicKey}"`, {
+          error: error.message,
+        });
+      })
+      .finally(() => {
+        this.topicDiscoveryInFlight.delete(topicKey);
+      });
+
+    this.topicDiscoveryInFlight.set(topicKey, task);
+  }
+
   /**
    * Generate a personalized feed for a user
    * @param {string} userId - User's MongoDB ObjectId
@@ -140,8 +248,9 @@ class FeedGenerator {
     try {
       // 1. Get user's active preferences
       const preferences = await UserPreference.getActivePreferences(userId);
+      const rankingPreferences = this.getRankingPreferences(preferences);
 
-      if (preferences.length === 0 && !opts.topic) {
+      if (rankingPreferences.length === 0 && !opts.topic) {
         logger.warn(`User ${userId} has no preferences, returning trending feed`);
         const trendingFeed = await this.generateTrendingFeed({
           ...opts,
@@ -153,7 +262,7 @@ class FeedGenerator {
       }
 
       // 2. Get recent articles (with optional topic filter)
-      const articles = await this.getRecentArticles(opts);
+      let articles = await this.getRecentArticles(opts);
 
       if (articles.length === 0) {
         logger.warn('No articles found for feed generation');
@@ -167,15 +276,64 @@ class FeedGenerator {
         };
       }
 
+      const explicitTopicValues = this.getExplicitTopicValues(preferences);
+      if (!opts.topic && explicitTopicValues.length > 0) {
+        const matchingCount = articles.filter((article) =>
+          this.articleMatchesAnyTopics(article, explicitTopicValues)
+        ).length;
+
+        // If current corpus has very low coverage for explicit topics, fetch
+        // topic-specific articles on demand so onboarding changes are reflected.
+        if (matchingCount < Math.max(12, Math.floor(opts.feedSize * 0.35))) {
+          let discoveredAny = false;
+          for (const topicValue of explicitTopicValues.slice(0, 4)) {
+            // Keep this fast for interactive refreshes.
+            const discovered = await this.discoverTopicOnDemand(topicValue, { fast: true });
+            discoveredAny = discoveredAny || discovered;
+          }
+
+          if (discoveredAny) {
+            articles = await this.getRecentArticles({
+              ...opts,
+              maxArticleAgeDays: null,
+            });
+          }
+        }
+      }
+
       // 3. Rank articles using the ranking engine
       const rankedArticles = this.rankingEngine.rankArticles(
         articles,
-        preferences,
+        rankingPreferences,
         { diversify: true, maxPerSource: 5 }
       );
+      const uniqueRankedArticles = this.dedupeRankedArticles(rankedArticles);
 
-      // 4. Take top N articles for the feed
-      const feedArticles = rankedArticles.slice(0, opts.feedSize);
+      // 4. Take top N articles for the feed.
+      // If the user has explicit topic preferences, prioritize items that match
+      // those topics so onboarding/preferences changes are immediately visible.
+      let feedArticles;
+      if (!opts.topic && explicitTopicValues.length > 0) {
+        const matching = [];
+        const nonMatching = [];
+
+        for (const item of uniqueRankedArticles) {
+          if (this.articleMatchesAnyTopics(item.article, explicitTopicValues)) {
+            matching.push(item);
+          } else {
+            nonMatching.push(item);
+          }
+        }
+
+        feedArticles = matching.slice(0, opts.feedSize);
+        if (feedArticles.length < opts.feedSize) {
+          feedArticles = feedArticles.concat(
+            nonMatching.slice(0, opts.feedSize - feedArticles.length)
+          );
+        }
+      } else {
+        feedArticles = uniqueRankedArticles.slice(0, opts.feedSize);
+      }
 
       // 5. Cache only default (non-topic) feeds.
       // Topic/search feeds are request-scoped and should not overwrite regular cached feed.
@@ -195,7 +353,7 @@ class FeedGenerator {
           generatedAt: new Date(),
           totalArticles: articles.length,
           feedSize: feedArticles.length,
-          userPreferences: preferences.length,
+          userPreferences: rankingPreferences.length,
         },
       };
     } catch (error) {
@@ -207,12 +365,131 @@ class FeedGenerator {
   }
 
   /**
+   * Build the preference set used by ranking.
+   * If explicit topic preferences exist, ignore implicit topic preferences so
+   * onboarding/preferences updates affect the feed immediately.
+   * @param {Array} preferences
+   * @returns {Array}
+   */
+  getRankingPreferences(preferences = []) {
+    const explicitTopicCount = preferences.filter(
+      (pref) =>
+        pref.preferenceType === PREFERENCE_TYPE.TOPIC &&
+        pref.source === PREFERENCE_SOURCE.EXPLICIT &&
+        pref.active !== false
+    ).length;
+
+    if (explicitTopicCount === 0) {
+      return preferences;
+    }
+
+    return preferences.filter(
+      (pref) =>
+        pref.preferenceType !== PREFERENCE_TYPE.TOPIC ||
+        pref.source === PREFERENCE_SOURCE.EXPLICIT
+    );
+  }
+
+  /**
+   * Get explicit topic preference values.
+   * @param {Array} preferences
+   * @returns {Array<string>}
+   */
+  getExplicitTopicValues(preferences = []) {
+    return preferences
+      .filter(
+        (pref) =>
+          pref.preferenceType === PREFERENCE_TYPE.TOPIC &&
+          pref.source === PREFERENCE_SOURCE.EXPLICIT &&
+          pref.active !== false &&
+          typeof pref.preferenceValue === 'string'
+      )
+      .map((pref) => pref.preferenceValue.toLowerCase().trim())
+      .filter(Boolean);
+  }
+
+  /**
+   * Check whether an article matches any topic string.
+   * @param {Object} article
+   * @param {Array<string>} topics
+   * @returns {boolean}
+   */
+  articleMatchesAnyTopics(article, topics = []) {
+    if (!article || !topics.length) return false;
+
+    return topics.some((topic) => {
+      const regexes = buildTopicRegexes(topic);
+      if (regexes.length === 0) return false;
+
+      return regexes.some((regex) => {
+        const inTags = (article.topics || []).some((t) =>
+          regex.test((t?.name || '').toLowerCase())
+        );
+        if (inTags) return true;
+
+        return (
+          regex.test((article.title || '').toLowerCase()) ||
+          regex.test((article.description || '').toLowerCase())
+        );
+      });
+    });
+  }
+
+  articlePassesTopicStrictFilter(article, topic) {
+    if (!article || !topic) return false;
+
+    const normalizedTopic = topic.toLowerCase().trim();
+    const signals = TOPIC_STRICT_SIGNALS[normalizedTopic] || [];
+    if (signals.length === 0) {
+      return this.articleMatchesAnyTopics(article, [normalizedTopic]);
+    }
+
+    const haystack = [
+      article.title || '',
+      article.description || '',
+      ...(article.topics || []).map((entry) => entry?.name || ''),
+    ]
+      .join(' ')
+      .toLowerCase();
+
+    return signals.some((signal) => haystack.includes(signal));
+  }
+
+  dedupeRankedArticles(rankedArticles = []) {
+    const seenKeys = new Set();
+    const deduped = [];
+
+    for (const item of rankedArticles) {
+      const article = item?.article;
+      if (!article) continue;
+
+      const normalizedTitle = normalizeHeadline(article.title || '');
+      const dedupeKey = normalizedTitle || article.url || article._id?.toString();
+
+      if (!dedupeKey || !seenKeys.has(dedupeKey)) {
+        if (dedupeKey) {
+          seenKeys.add(dedupeKey);
+        }
+        deduped.push(item);
+      }
+    }
+
+    return deduped;
+  }
+
+  /**
    * Get recent articles from the database
    * @param {Object} options - Query options
    * @returns {Array} - Array of article documents
    */
   async getRecentArticles(options = {}) {
-    const { maxArticleAgeDays, requireSummary, topic, excludeGoogleNews = false } = options;
+    const {
+      maxArticleAgeDays,
+      requireSummary,
+      topic,
+      excludeGoogleNews = false,
+      topicMatchMode = 'broad',
+    } = options;
 
     const query = {};
     if (typeof maxArticleAgeDays === 'number' && maxArticleAgeDays > 0) {
@@ -229,11 +506,22 @@ class FeedGenerator {
     // Filter by topic using flexible matching across tags and text.
     if (topic) {
       const topicRegexes = buildTopicRegexes(topic);
-      query.$or = topicRegexes.flatMap((topicRegex) => ([
-        { 'topics.name': topicRegex },
-        { title: topicRegex },
-        { description: topicRegex },
-      ]));
+      if (topicMatchMode === 'query-tag') {
+        query.$or = topicRegexes.map((topicRegex) => ({
+          topics: {
+            $elemMatch: {
+              name: topicRegex,
+              confidence: { $gte: 0.85 },
+            },
+          },
+        }));
+      } else {
+        query.$or = topicRegexes.flatMap((topicRegex) => ([
+          { 'topics.name': topicRegex },
+          { title: topicRegex },
+          { description: topicRegex },
+        ]));
+      }
     }
 
     // Only require completed summaries if specified
@@ -245,6 +533,10 @@ class FeedGenerator {
       .sort({ publishedAt: -1 })
       .limit(500) // Get more than we need for better ranking diversity
       .lean();
+
+    if (topic && topicMatchMode === 'query-tag') {
+      return articles.filter((article) => this.articlePassesTopicStrictFilter(article, topic));
+    }
 
     return articles;
   }
@@ -395,37 +687,57 @@ class FeedGenerator {
       topic = null,
       strictTopic = false,
       liveSearch = false,
+      requireSummary = false,
     } = options;
 
-    // For topic-filtered requests, generate fresh feed (skip cache)
-    if (topic) {
-      if (liveSearch) {
-        await this.discoverTopicOnDemand(topic, { force: true, fast: true });
-      }
+    const needsRequestScopedFeed = Boolean(topic || requireSummary);
 
+    // Topic-filtered and summary-filtered requests are request-scoped.
+    if (needsRequestScopedFeed) {
       let result = await this.generateFeedForUser(userId, {
         topic,
+        requireSummary,
         maxArticleAgeDays: null,
         skipCache: true,
+        topicMatchMode: 'query-tag',
       });
 
-      if (result.items.length === 0) {
-        const discovered = await this.discoverTopicOnDemand(topic);
-        if (discovered) {
-          result = await this.generateFeedForUser(userId, {
-            topic,
-            maxArticleAgeDays: null,
-            skipCache: true,
+      const minimumTopicResults = Math.min(limit, 6);
+      const hasEnoughTopicResults = result.items.length >= minimumTopicResults;
+
+      if (!hasEnoughTopicResults) {
+        // Live search can justify waiting briefly for a targeted refresh.
+        // Topic-tab clicks should never block on discovery.
+        const shouldBlockForBootstrap = liveSearch;
+
+        if (shouldBlockForBootstrap) {
+          const discovered = await this.discoverTopicOnDemand(topic, {
+            force: true,
+            fast: true,
+          });
+
+          if (discovered) {
+            result = await this.generateFeedForUser(userId, {
+              topic,
+              requireSummary,
+              maxArticleAgeDays: null,
+              skipCache: true,
+              topicMatchMode: 'query-tag',
+            });
+          }
+        } else {
+          this.triggerTopicDiscovery(topic, {
+            force: true,
+            fast: true,
           });
         }
       }
 
-      if (result.items.length === 0 && !strictTopic) {
-        logger.warn(`No topic matches for "${topic}", falling back to default feed`);
-        const fallback = await this.generateFeedForUser(userId, {
-          maxArticleAgeDays: null,
+      if (result.items.length < minimumTopicResults && !liveSearch) {
+        this.triggerTopicDiscovery(topic, {
+          force: true,
+          fast: false,
         });
-        return this.paginateResults(fallback.items, { limit, cursor });
       }
 
       return this.paginateResults(result.items, { limit, cursor });

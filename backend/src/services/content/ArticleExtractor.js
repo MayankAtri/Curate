@@ -14,6 +14,54 @@ class ArticleExtractor {
       'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
   }
 
+  decodeGoogleNewsUrl(url) {
+    try {
+      const match = url.match(/\/rss\/articles\/([^?]+)/);
+      if (!match) return null;
+
+      let encoded = match[1];
+      encoded = encoded.replace(/-/g, '+').replace(/_/g, '/');
+      while (encoded.length % 4) {
+        encoded += '=';
+      }
+
+      const decoded = Buffer.from(encoded, 'base64').toString('utf-8');
+      const urlMatch = decoded.match(/https?:\/\/[^\s\x00-\x1f]+/);
+      if (!urlMatch) return null;
+
+      return urlMatch[0]
+        .replace(/[\x00-\x1f]/g, '')
+        .split(/[\s"'>]/)[0];
+    } catch {
+      return null;
+    }
+  }
+
+  async resolveUrl(url) {
+    if (!url?.includes('news.google.com/rss/articles/')) {
+      return url;
+    }
+
+    const decodedUrl = this.decodeGoogleNewsUrl(url);
+    if (decodedUrl) {
+      return decodedUrl;
+    }
+
+    try {
+      const response = await axios.get(url, {
+        timeout: this.timeout,
+        headers: {
+          'User-Agent': this.userAgent,
+        },
+        maxRedirects: 5,
+      });
+
+      return response?.request?.res?.responseUrl || url;
+    } catch {
+      return url;
+    }
+  }
+
   /**
    * Fetch HTML content from a URL
    * @param {string} url - Article URL
@@ -21,7 +69,8 @@ class ArticleExtractor {
    */
   async fetchHtml(url) {
     try {
-      const response = await axios.get(url, {
+      const resolvedUrl = await this.resolveUrl(url);
+      const response = await axios.get(resolvedUrl, {
         timeout: this.timeout,
         headers: {
           'User-Agent': this.userAgent,
@@ -31,7 +80,10 @@ class ArticleExtractor {
         maxRedirects: 5,
       });
 
-      return response.data;
+      return {
+        html: response.data,
+        finalUrl: response?.request?.res?.responseUrl || resolvedUrl,
+      };
     } catch (error) {
       logger.error(`Failed to fetch URL: ${url}`, { error: error.message });
       throw error;
@@ -261,13 +313,14 @@ class ArticleExtractor {
     try {
       logger.debug(`Extracting content from: ${url}`);
 
-      const html = await this.fetchHtml(url);
-      const content = this.extractContent(html, url);
+      const { html, finalUrl } = await this.fetchHtml(url);
+      const content = this.extractContent(html, finalUrl || url);
 
-      logger.info(`Extracted ${content.wordCount} words from ${url}`);
+      logger.info(`Extracted ${content.wordCount} words from ${finalUrl || url}`);
 
       return {
         success: true,
+        resolvedUrl: finalUrl || url,
         ...content,
       };
     } catch (error) {

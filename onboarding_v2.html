@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Curate // System Calibration</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,800;1,400;1,800&amp;family=Space+Grotesk:wght@300;400;700&amp;family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-tertiary": "#ffffff",
+              "inverse-on-surface": "#f4f0eb",
+              "surface-tint": "#b72200",
+              "on-secondary-fixed": "#1c1b1b",
+              "surface-container-highest": "#e6e2dd",
+              "surface-variant": "#e6e2dd",
+              "surface-container-lowest": "#ffffff",
+              "error-container": "#ffdad6",
+              "surface-dim": "#ddd9d5",
+              "on-background": "#1c1c19",
+              "on-tertiary-container": "#fffcfb",
+              "on-secondary": "#ffffff",
+              "primary-fixed-dim": "#ffb4a4",
+              "inverse-primary": "#ffb4a4",
+              "tertiary-container": "#757474",
+              "on-primary": "#ffffff",
+              "on-surface-variant": "#5e3f38",
+              "on-primary-fixed-variant": "#8c1800",
+              "surface-container": "#f1ede8",
+              "error": "#ba1a1a",
+              "on-secondary-container": "#656464",
+              "surface": "#fdf9f4",
+              "on-tertiary-fixed-variant": "#474747",
+              "outline-variant": "#e9bdb3",
+              "outline": "#936e66",
+              "surface-container-low": "#f7f3ee",
+              "secondary": "#5f5e5e",
+              "primary-fixed": "#ffdad3",
+              "surface-bright": "#fdf9f4",
+              "secondary-fixed": "#e5e2e1",
+              "tertiary-fixed": "#e4e2e1",
+              "on-surface": "#1c1c19",
+              "on-tertiary-fixed": "#1b1c1c",
+              "on-error-container": "#93000a",
+              "surface-container-high": "#ebe8e3",
+              "background": "#fdf9f4",
+              "on-error": "#ffffff",
+              "tertiary": "#5c5c5c",
+              "secondary-fixed-dim": "#c8c6c5",
+              "primary-container": "#e02c00",
+              "on-primary-container": "#fffbff",
+              "secondary-container": "#e5e2e1",
+              "tertiary-fixed-dim": "#c8c6c6",
+              "primary": "#b32100",
+              "on-secondary-fixed-variant": "#474646",
+              "on-primary-fixed": "#3e0500",
+              "inverse-surface": "#31302d"
+            },
+            fontFamily: {
+              "headline": ["Newsreader", "serif"],
+              "body": ["Inter", "sans-serif"],
+              "label": ["Space Grotesk", "sans-serif"],
+              "mono": ["JetBrains Mono", "monospace"]
+            },
+            borderRadius: {"DEFAULT": "0rem", "lg": "0rem", "xl": "0rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #F4F0EB;
+            color: #111111;
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 0;
+        }
+    </style>
+</head>
+<body class="font-body antialiased min-h-screen">
+<!-- TopNavBar -->
+<header class="bg-[#F4F0EB] dark:bg-[#111111] border-b-4 border-[#111111] dark:border-[#F4F0EB] sticky top-0 z-[60] w-full">
+<div class="flex justify-between items-center w-full px-6 py-4 max-w-full">
+<div class="font-['Newsreader'] uppercase tracking-tighter font-black text-2xl text-[#111111] dark:text-[#F4F0EB] italic">
+                SYSTEM CALIBRATION: CHOOSE YOUR SIGNALS
+            </div>
+<nav class="hidden md:flex items-center space-x-8">
+<a class="text-[#FF3300] underline decoration-4 underline-offset-8 font-mono text-xs uppercase font-bold" href="#">CALIBRATION</a>
+<a class="text-[#111111] dark:text-[#F4F0EB] hover:bg-[#FF3300] hover:text-white transition-none px-2 py-1 font-mono text-xs uppercase font-bold" href="#">FEED</a>
+<a class="text-[#111111] dark:text-[#F4F0EB] hover:bg-[#FF3300] hover:text-white transition-none px-2 py-1 font-mono text-xs uppercase font-bold" href="#">ARCHIVE</a>
+</nav>
+<div class="flex items-center space-x-4">
+<div class="relative hidden sm:block">
+<input class="bg-transparent border-2 border-[#111111] px-4 py-1 font-mono text-xs focus:ring-0 focus:border-[#FF3300] outline-none" placeholder="SEARCH_V0.9" type="text"/>
+</div>
+<button class="material-symbols-outlined text-[#111111] dark:text-[#F4F0EB] hover:text-[#FF3300]" data-icon="tune">tune</button>
+<button class="material-symbols-outlined text-[#111111] dark:text-[#F4F0EB] hover:text-[#FF3300]" data-icon="settings">settings</button>
+</div>
+</div>
+</header>
+<main class="flex min-h-[calc(100vh-140px)] mb-20">
+<!-- SideNavBar / Sidebar -->
+<aside class="w-96 border-r-4 border-[#111111] flex flex-col bg-[#F4F0EB] shrink-0 sticky top-[76px] h-[calc(100vh-156px)]">
+<div class="p-6 border-b-4 border-[#111111]">
+<div class="font-mono text-xs font-bold uppercase text-[#FF3300]">LIVE PREVIEW</div>
+<div class="font-mono text-[10px] text-[#111111]/60">STREAMING_DATA_V0.4</div>
+</div>
+<div class="flex-1 overflow-y-auto p-6 space-y-8">
+<div class="space-y-4">
+<div class="font-headline italic font-black text-2xl uppercase border-l-4 border-[#FF3300] pl-4">Incoming Intel</div>
+<!-- Feed Item 1 -->
+<div class="border-b-2 border-[#111111]/10 pb-4 group cursor-pointer">
+<div class="font-mono text-[10px] text-[#FF3300] mb-1">[08:42:12] // MACRO_SIGNAL</div>
+<div class="font-headline font-bold text-lg leading-tight group-hover:underline">Global supply chains pivot to automated Arctic corridors.</div>
+<div class="font-mono text-xs mt-2 text-[#111111]/70">Confidence: 94.2%</div>
+</div>
+<!-- Feed Item 2 -->
+<div class="border-b-2 border-[#111111]/10 pb-4 group cursor-pointer">
+<div class="font-mono text-[10px] text-[#FF3300] mb-1">[08:39:05] // NEURAL_NETS</div>
+<div class="font-headline font-bold text-lg leading-tight group-hover:underline">LLM-04 achieves recursive reasoning in closed sandbox.</div>
+<div class="font-mono text-xs mt-2 text-[#111111]/70">Criticality: HIGH</div>
+</div>
+<!-- Feed Item 3 -->
+<div class="border-b-2 border-[#111111]/10 pb-4 group cursor-pointer">
+<div class="font-mono text-[10px] text-[#FF3300] mb-1">[08:15:30] // CAPITAL</div>
+<div class="font-headline font-bold text-lg leading-tight group-hover:underline">Carbon-backed currencies surge in Southeast Asian markets.</div>
+<div class="font-mono text-xs mt-2 text-[#111111]/70">Volume: +12.4B</div>
+</div>
+<!-- Feed Item 4 -->
+<div class="border-b-2 border-[#111111]/10 pb-4 group cursor-pointer">
+<div class="font-mono text-[10px] text-[#FF3300] mb-1">[07:55:22] // SPACE</div>
+<div class="font-headline font-bold text-lg leading-tight group-hover:underline">Lunar orbital relay stations report 12ms latency reduction.</div>
+<div class="font-mono text-xs mt-2 text-[#111111]/70">Status: OPERATIONAL</div>
+</div>
+</div>
+</div>
+<div class="p-6 border-t-4 border-[#111111] bg-[#111111]">
+<button class="w-full bg-[#FF3300] text-white py-4 font-mono font-bold uppercase hover:bg-white hover:text-[#111111] transition-colors border-2 border-transparent hover:border-[#FF3300]">
+                    CALIBRATE FEED
+                </button>
+</div>
+</aside>
+<!-- Topic Matrix Grid -->
+<section class="flex-1 p-8">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
+<!-- Topic Card: GLOBAL MACRO -->
+<div class="group border-4 border-[#111111] bg-white hover:bg-[#FF3300]/5 transition-colors relative flex flex-col cursor-pointer">
+<div class="h-40 overflow-hidden border-b-4 border-[#111111]">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Dynamic visualization of global digital networks and data streams across a dark blue illuminated globe with bright nodes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAudtJAM9q3Fo-CotCKvQt4WXSm4sV2e07NE6g6cIgohL1uRbTkuomkDIhLEq4thYAcNHxw9ujIWA3E30EhC-aWBKHWvbbZ_4KRvqck54nBohmEDrqAYSl4tCQAX8t4thdd4pwy1fPqFEZxoblIO8M8nWedJ1QYJwlcLLcyvME05H77bMKVSV4WWipGZs0sP9omMn2j4XarskOHaDsu44HuPGmYpRS0QoZCDp4j57pxP92Y5xcRCvR7dZLNVXY7zK_U_VwXI4W-"/>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<span class="font-mono text-[10px] font-bold bg-[#111111] text-white px-2 py-0.5">TPC_001</span>
+<div class="w-6 h-6 border-2 border-[#111111] flex items-center justify-center bg-[#FF3300]">
+<span class="material-symbols-outlined text-white text-xs" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+</div>
+<h3 class="font-headline font-black text-xl leading-none uppercase mb-2">GLOBAL MACRO</h3>
+<p class="font-body text-xs text-[#111111]/60 leading-tight">Economic shifts, geopolitical stability, and trade route fluctuations.</p>
+</div>
+</div>
+<!-- Topic Card: NEURAL NETS -->
+<div class="group border-4 border-[#111111] bg-white hover:bg-[#FF3300]/5 transition-colors relative flex flex-col cursor-pointer">
+<div class="h-40 overflow-hidden border-b-4 border-[#111111]">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Abstract colorful visualization of artificial intelligence neural networks with glowing lines and interconnected digital neurons" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCbsmwVM_JVe4MrhDTu0Bns_Eh9EpnUwHmV2Xq5sMOnInK3NyCdZARJ3tDbhieRBMW3UZc7IYhe-Zej0ORvl7rw1iWunwpjHZ-aNfeWqXCJ3zQgVdIx7wijTnNg1VvPjYcs0TwVbAvKCChj1KfOK7yrvd8TuKxrP762EHNU4UIXPkybWyiQ6s-j4F44D52QqwxPsbbhohe6ZKZGFIr8TOn2ugVVnlSQ38uHXbV6OtO50s-NMunEbcgI57MDnv4asNacglQFKzY"/>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<span class="font-mono text-[10px] font-bold bg-[#111111] text-white px-2 py-0.5">TPC_002</span>
+<div class="w-6 h-6 border-2 border-[#111111] flex items-center justify-center"></div>
+</div>
+<h3 class="font-headline font-black text-xl leading-none uppercase mb-2">NEURAL NETS</h3>
+<p class="font-body text-xs text-[#111111]/60 leading-tight">Artificial intelligence development, model transparency, and silicon security.</p>
+</div>
+</div>
+<!-- Topic Card: BIOTECH -->
+<div class="group border-4 border-[#111111] bg-white hover:bg-[#FF3300]/5 transition-colors relative flex flex-col cursor-pointer">
+<div class="h-40 overflow-hidden border-b-4 border-[#111111]">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Close-up of vibrant petri dishes in a modern laboratory setting with sharp focus on biological textures and rich colors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMHGbG63WRBWSPbzs_mKbTxXjmJJxKHHbPau2DwPKPE7eii73tMKyfDhVkKLtuOiKjA7LXvtZBeM1c-v4uBrX-0LKGeCXgBnm-8Y_QNX_t1CGsOVAW9PkA3zwI--sQj4aXotZ0b5iyC0pVfyzDd_T88J2Bbwr18wwDigwMOVr2yL8lB9JKo66eGrMW-aLdyk9PfmJ4LyT4LgddLIz7dQt548p5lTIhNqBOJygljD9bTPyyGcPbYCpUKfxsCPxKD4lNGCP_8sap"/>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<span class="font-mono text-[10px] font-bold bg-[#111111] text-white px-2 py-0.5">TPC_003</span>
+<div class="w-6 h-6 border-2 border-[#111111] flex items-center justify-center bg-[#FF3300]">
+<span class="material-symbols-outlined text-white text-xs" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+</div>
+<h3 class="font-headline font-black text-xl leading-none uppercase mb-2">BIOTECH</h3>
+<p class="font-body text-xs text-[#111111]/60 leading-tight">Genomic editing, pharmaceutical breakthroughs, and longevity research.</p>
+</div>
+</div>
+<!-- Topic Card: GEOPOLITICS -->
+<div class="group border-4 border-[#111111] bg-white hover:bg-[#FF3300]/5 transition-colors relative flex flex-col cursor-pointer">
+<div class="h-40 overflow-hidden border-b-4 border-[#111111]">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Candid street level view of a modern government district with heavy brutalist architecture and sharp shadows in bright daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZLbDxRhyDsjC7VrMnbD9Ois5xvTLhkYFJwGHitKZXRwDznTgLNuah54kPLCekPR1PEdA8XM1dm8BrZyQUAMr4nDqYSbzssVxtD5_F1VAikyvpmsD87xjxHzVDSueD37F-lceXKFEj0d-VU65Vp3Tlf6YKQ6vdkPJn5VR9RlNuHS-W8ZNBdAqwDOc5B16tdmSzMqutrkxa7-DhFeAIzWvFILu2dr3VelqpMy78qJ2xCQtlKv8R0IAl9qAsdqoQ1BhlKEmqGV5u"/>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<span class="font-mono text-[10px] font-bold bg-[#111111] text-white px-2 py-0.5">TPC_004</span>
+<div class="w-6 h-6 border-2 border-[#111111] flex items-center justify-center"></div>
+</div>
+<h3 class="font-headline font-black text-xl leading-none uppercase mb-2">GEOPOLITICS</h3>
+<p class="font-body text-xs text-[#111111]/60 leading-tight">Sovereignty disputes, international treaties, and resource control.</p>
+</div>
+</div>
+<!-- Topic Card: SPACE LOGISTICS -->
+<div class="group border-4 border-[#111111] bg-white hover:bg-[#FF3300]/5 transition-colors relative flex flex-col cursor-pointer">
+<div class="h-40 overflow-hidden border-b-4 border-[#111111]">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Satellite image of Earth showing vibrant coastlines and clouds with a sharp mechanical edge of a space station in view" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-bTTYgnJ-FxxV3eKiyAORJirXGQr_lEf4plB5bMHfs9SGu7b8WndNggaUhpAEhsiW0LrOHjOeey4WalY1BBxaGVX3t2WIqZEvY9fH9jAVPJikOGea1wPJGAullex4D8AX6X3--0kwGKz0_ZNn3UjK1tx18qWaG7fyp2RulrrR4K9R0umTs4Wf89ksgAEGsY7f3yeeLxk7vEagoy_KkLdLXxwj7XOSm-Y4nxVyPQxZHHZ-6ytO79m61d1MJoSseof7icQWdvMo"/>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<span class="font-mono text-[10px] font-bold bg-[#111111] text-white px-2 py-0.5">TPC_005</span>
+<div class="w-6 h-6 border-2 border-[#111111] flex items-center justify-center bg-[#FF3300]">
+<span class="material-symbols-outlined text-white text-xs" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+</div>
+<h3 class="font-headline font-black text-xl leading-none uppercase mb-2">SPACE LOGISTICS</h3>
+<p class="font-body text-xs text-[#111111]/60 leading-tight">Orbital debris management, lunar base supply chains, and asteroid mining.</p>
+</div>
+</div>
+<!-- Topic Card: QUANTUM COMPUTING -->
+<div class="group border-4 border-[#111111] bg-white hover:bg-[#FF3300]/5 transition-colors relative flex flex-col cursor-pointer">
+<div class="h-40 overflow-hidden border-b-4 border-[#111111]">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Hyper-detailed shot of a quantum processor with gold cooling tubes and complex wiring in a high-tech facility" src="https://lh3.googleusercontent.com/aida-public/AB6AXuApsERQAsUPHRCr_Q_ptzW2lsaTergm0OsHEVx-TbF_1Tn6bRi7nYgceHnOqRVva3i9vANeyi4Mxo7Vq5pZ6bNnwJdtjuvsc3zxNkSW5lDWNjIzfKFJXktneHrhAfbnIveVFSmGz9MMMs2vgf3Sy7D2MXhfNejRzuIwLEUHMF1yfkKZRRIwi2aYceR5GqEfN6u1xdYFbFbyGML_anSScZuWHgKhxWR1YSDuwAkZ2KeLD_jW6_yc5zCQvhLevHI7KjxQG20Bf5uo"/>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<span class="font-mono text-[10px] font-bold bg-[#111111] text-white px-2 py-0.5">TPC_006</span>
+<div class="w-6 h-6 border-2 border-[#111111] flex items-center justify-center"></div>
+</div>
+<h3 class="font-headline font-black text-xl leading-none uppercase mb-2">QUANTUM</h3>
+<p class="font-body text-xs text-[#111111]/60 leading-tight">Encryption disruption, materials discovery, and qubit stability news.</p>
+</div>
+</div>
+<!-- Topic Card: LATE STAGE CAPITAL -->
+<div class="group border-4 border-[#111111] bg-white hover:bg-[#FF3300]/5 transition-colors relative flex flex-col cursor-pointer">
+<div class="h-40 overflow-hidden border-b-4 border-[#111111]">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Reflective glass skyscrapers in a dense urban financial district with sharp architectural angles and deep shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTHV8Hv0-mTfg1guzyWCvJUuXxAHLSXiL-BgC19vh06rsWdZAWhtKIbvwe4q-pRgW30aq5WRbhnBpsNNY-vOQrjijjXKRCCbx4QtVSF7omvVuKEwYVZXDD7nd-4Zb0ObrGluvuHaZTwTYaBK885h8NaSqoEExd3G4gKiuOxznppqCtSe0XNcZS7M4P0csG-bfkt1mRXx30fltxR9qn1qGaMCf6h1OSaAJ5qgcSxbBW379-4XdtwvOpWotSwNd4Nn_eTy6XCg1c"/>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<span class="font-mono text-[10px] font-bold bg-[#111111] text-white px-2 py-0.5">TPC_007</span>
+<div class="w-6 h-6 border-2 border-[#111111] flex items-center justify-center bg-[#FF3300]">
+<span class="material-symbols-outlined text-white text-xs" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+</div>
+<h3 class="font-headline font-black text-xl leading-none uppercase mb-2">LATE STAGE CAPITAL</h3>
+<p class="font-body text-xs text-[#111111]/60 leading-tight">Hyper-inflation, algorithmic markets, and wealth concentration tracking.</p>
+</div>
+</div>
+<!-- Topic Card: SYNTHETIC BIO -->
+<div class="group border-4 border-[#111111] bg-white hover:bg-[#FF3300]/5 transition-colors relative flex flex-col cursor-pointer">
+<div class="h-40 overflow-hidden border-b-4 border-[#111111]">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Close-up of bioluminescent plants in a dark laboratory with glowing neon green and blue veins" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcQ2wd7fbNXkmlaXwr8ufvzwVLt5_HhimortrkIpa5Ldao40OoIUItBkqRjh-pvJsJBrrW2QmSGky90Ncv8X8TqO8rsCj2d43UgOe-8sp2iqHiGtrnzl-RSS8B5Y1ODqbcoF_NEpMhbQ4rAH6sMg5voBkNe-9uOCzgSbXj1ajoEEulyRp3Zj-weKMVUlipB-KPnJKMk69MGFV3OtQemBVnrRQCLQRUUUnNzs4SUUl50mApWTsQK-S38axdipGHDwHzHjDgN_1i"/>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<span class="font-mono text-[10px] font-bold bg-[#111111] text-white px-2 py-0.5">TPC_008</span>
+<div class="w-6 h-6 border-2 border-[#111111] flex items-center justify-center"></div>
+</div>
+<h3 class="font-headline font-black text-xl leading-none uppercase mb-2">SYNTHETIC BIO</h3>
+<p class="font-body text-xs text-[#111111]/60 leading-tight">Bio-fabricated materials, designer organisms, and food systems.</p>
+</div>
+</div>
+<!-- Topic Card: CLIMATE MIGRATION -->
+<div class="group border-4 border-[#111111] bg-white hover:bg-[#FF3300]/5 transition-colors relative flex flex-col cursor-pointer">
+<div class="h-40 overflow-hidden border-b-4 border-[#111111]">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Dramatic aerial view of a winding desert road through dry rugged terrain under a harsh midday sun" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8Qs3U2AmFG04v2RcwfwWSeAY54SvPoa8KNXvJ_7rF7nG9TZEIVEg7ULGb4kCyuB7hzwn1f2c1ksJtqE9BZscjvo1KR0Oto-GlXmXOQsMpHhXlof1BnRXvOP2qe5nrHMk9kKIIeYwON7I4sdJvBJ4J27mRdbf_TqnBOHK4TWu88k89PmPnu39bJC2X1EGXYKSIzIMS-MAJfN4KIk9ZoX8W9u-mhzPCLnG8sqGoOd4ZsQvhZtjm41vyMgjeeU7oB0-PKawMZ4yp"/>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<span class="font-mono text-[10px] font-bold bg-[#111111] text-white px-2 py-0.5">TPC_009</span>
+<div class="w-6 h-6 border-2 border-[#111111] flex items-center justify-center bg-[#FF3300]">
+<span class="material-symbols-outlined text-white text-xs" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+</div>
+<h3 class="font-headline font-black text-xl leading-none uppercase mb-2">CLIMATE MIGRATION</h3>
+<p class="font-body text-xs text-[#111111]/60 leading-tight">Population displacement, border tech, and habitable zone shifting.</p>
+</div>
+</div>
+<!-- Topic Card: CULTURE -->
+<div class="group border-4 border-[#111111] bg-white hover:bg-[#FF3300]/5 transition-colors relative flex flex-col cursor-pointer">
+<div class="h-40 overflow-hidden border-b-4 border-[#111111]">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Street art with bold colors and aggressive typography on a textured concrete wall in a bright urban alley" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDW3YuraREc47NNJjf9HIYczA_wBkKSU_Kr52ebkOMWukc3apjl61RF0PCPDhk_6MAii-Tr_9Xfabkzg9-kWKhAXJwQv1CA5VCTLwjpz4N18VeZ3CoySeM-qOYctv_YsSBBJOKzSUFc1yS38ARRw3-_s6YqAHIJIDwfkxT4jFth44_6y6473urwLQAuPyxhDmssEjYO5POY0t2OZdmZBu0JtQtrFtADsAz4EP1SdcM9ZQSnOAFkVdeXeFPWYIBaQetZDq6O-7w2"/>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<span class="font-mono text-[10px] font-bold bg-[#111111] text-white px-2 py-0.5">TPC_010</span>
+<div class="w-6 h-6 border-2 border-[#111111] flex items-center justify-center"></div>
+</div>
+<h3 class="font-headline font-black text-xl leading-none uppercase mb-2">CULTURE</h3>
+<p class="font-body text-xs text-[#111111]/60 leading-tight">Digital subcultures, memetic warfare, and paradigm shifts.</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex justify-between items-center py-4 px-10 bg-[#FF3300] text-white border-t-4 border-[#111111]">
+<div class="font-mono text-[10px] font-bold uppercase tracking-widest text-white/80">
+            SYSTEM TERMINAL v2.04 // NO UNAUTHORIZED ACCESS
+        </div>
+<div class="flex items-center space-x-12">
+<div class="flex items-center space-x-2">
+<span class="font-mono text-[10px] uppercase">Active_Signals:</span>
+<span class="font-mono text-xs font-black">05 / 42</span>
+</div>
+<button class="font-['Fraunces'] italic font-black uppercase text-xl hover:bg-black hover:text-[#FF3300] px-8 py-2 transition-all active:invert border-2 border-transparent hover:border-white">
+                COMMIT TO SYSTEM
+            </button>
+</div>
+<div class="flex space-x-6 items-center">
+<a class="font-mono text-[10px] uppercase underline" href="#">Legal_Disclaimer</a>
+<span class="material-symbols-outlined text-sm" data-icon="lock">lock</span>
+</div>
+</footer>
+<!-- Fixed Calibration Indicator -->
+<div class="fixed top-24 right-10 z-40 bg-[#111111] text-[#FF3300] p-4 border-2 border-[#FF3300] font-mono text-[10px]">
+<div class="mb-2 flex items-center justify-between">
+<span>SYNC_STATUS:</span>
+<span class="animate-pulse">●</span>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between w-32"><span>BUFFERING</span><span>88%</span></div>
+<div class="w-full bg-[#333] h-1">
+<div class="bg-[#FF3300] h-full w-[88%]"></div>
+</div>
+</div>
+</div>
+</body></html>
